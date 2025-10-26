@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب ميداليات مخصصة</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .form-container { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 600px; width: 100%; overflow: hidden; }
+        .form-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; }
+        .logo { max-width: 180px; height: auto; margin-bottom: 20px; }
+        .form-header h1 { color: white; font-size: 28px; margin-bottom: 10px; }
+        .form-header p { color: rgba(255,255,255,0.9); font-size: 16px; }
+        .form-body { padding: 40px 30px; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 15px; }
+        .required { color: #e74c3c; }
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; transition: all 0.3s; font-family: inherit;
+        }
+        input:focus, textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        textarea { resize: vertical; min-height: 100px; }
+        .help-text { font-size: 13px; color: #666; margin-top: 6px; }
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .submit-btn[aria-busy="true"] { opacity: 0.8; cursor: progress; transform: translateY(0); }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .submit-btn:active { transform: translateY(0); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .message { display: none; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .success-message { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error-message { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        @media (max-width: 600px) { .form-body { padding: 30px 20px; } .form-header h1 { font-size: 24px; } }
+    </style>
+</head>
+<body>
+    <main class="form-container" role="main" aria-labelledby="formTitle">
+        <div class="form-header">
+            <img src="https://drive.google.com/uc?export=view&id=1ANdpc__pXmLwchAxPryGzLrFIrSOkRlr" alt="الشعار" class="logo">
+            <h1 id="formTitle">طلب ميداليات مخصصة 🎨</h1>
+            <p>أدخل الأسماء وسنقوم بتجهيز ملفاتك خلال 24 ساعة</p>
+        </div>
+
+        <div class="form-body">
+            <div id="successMessage" class="message success-message" role="status" aria-live="polite"></div>
+            <div id="errorMessage" class="message error-message" role="alert" aria-live="assertive"></div>
+
+            <form id="orderForm" novalidate>
+                <div class="form-group">
+                    <label for="customerName">الاسم الكامل <span class="required">*</span></label>
+                    <input type="text" id="customerName" name="customerName" required placeholder="أدخل اسمك الكامل" autocomplete="name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com" autocomplete="email" />
+                    <div class="help-text">سيتم إرسال الملفات إلى هذا البريد</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">رقم الجوال</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+966 5xxxxxxxx" inputmode="tel" />
+                </div>
+
+                <div class="form-group">
+                    <label for="arabicNames">الأسماء المطلوبة بالعربي <span class="required">*</span></label>
+                    <textarea id="arabicNames" name="arabicNames" required placeholder="محمد، عبدالله، علي"></textarea>
+                    <div class="help-text">أدخل الأسماء مفصولة بفاصلة عربية (،) أو فاصلة إنجليزية (,). سيتم تجاهل الأسطر الفارغة.</div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" aria-busy="false">متابعة للدفع 💳</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+    (function () {
+        const form = document.getElementById('orderForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // === ضع هنا عنوان webhook الخاص بـ n8n ===
+        const WEBHOOK_URL = 'https://YOUR_N8N_DOMAIN/webhook/order-form';
+
+        function parseNames(raw) {
+            if (!raw) return [];
+            return raw.split(/[\u060C,\n]+/).map(s => s.trim()).filter(Boolean);
+        }
+
+        function setBusy(busy) {
+            submitBtn.disabled = busy;
+            submitBtn.setAttribute('aria-busy', String(busy));
+            submitBtn.textContent = busy ? 'جاري الإرسال...' : 'متابعة للدفع 💳';
+        }
+
+        function showSuccess(text) {
+            successMessage.textContent = text;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        function showError(text) {
+            errorMessage.textContent = text;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            setBusy(true);
+            showSuccess('');
+            showError('');
+
+            const customerName = document.getElementById('customerName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const rawNames = document.getElementById('arabicNames').value;
+
+            if (!customerName || !email) {
+                showError('الرجاء ملء الحقول المطلوبة.');
+                setBusy(false);
+                return;
+            }
+
+            const names = parseNames(rawNames);
+            if (!names.length) {
+                showError('الرجاء إدخال اسم واحد على الأقل.');
+                setBusy(false);
+                return;
+            }
+
+            const payload = { customerName, email, phone, names, timestamp: new Date().toISOString() };
+
+            try {
+                const resp = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                let result = null;
+                try { result = await resp.json(); } catch (err) {}
+
+                if (!resp.ok) {
+                    const msg = (result && result.message) ? result.message : 'فشل إرسال الطلب. الرجاء المحاولة لاحقًا.';
+                    throw new Error(msg);
+                }
+
+                if (result && result.paymentUrl) {
+                    showSuccess('✅ تم إرسال طلبك! يتم توجيهك لصفحة الدفع...');
+                    form.reset();
+                    setTimeout(() => window.location.href = result.paymentUrl, 1200);
+                } else {
+                    showSuccess((result && (result.message || '✅ تم إرسال الطلب بنجاح.')) || '✅ تم الإرسال.');
+                    form.reset();
+                }
+            } catch (err) {
+                console.error(err);
+                showError(err.message || 'حدث خطأ أثناء الإرسال.');
+            } finally {
+                setBusy(false);
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
