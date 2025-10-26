@@ -6,34 +6,39 @@
     <title>طلب ميداليات مخصصة</title>
     <style>
         :root {
-            --bg-start: #0f172a;
-            --bg-end: #1e293b;
-            --card-bg: rgba(15,23,42,0.8);
-            --card-border: rgba(148,163,184,0.12);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --accent-start: #06b6d4;
-            --accent-end: #0ea5e9;
-            --accent-solid: #0ea5e9;
+            --bg-start: #2E2A29;
+            --bg-end: #4A4C5D;
+            --ring-soft: rgba(217, 209, 198, 0.15);
+
+            --card-bg: #F9F8F6;
+            --card-border: rgba(0,0,0,0.07);
+
+            --text-main: #2E2A29;
+            --text-dim: #6B6B6B;
+            --text-light: #8A8A8A;
+
+            --accent-start: #56766B;
+            --accent-end: #6F8F84;
+
+            --badge-bg-success: rgba(76, 175, 80, 0.08);
+            --badge-border-success: rgba(76, 175, 80, 0.4);
+            --badge-text-success: #2e7d32;
+
+            --badge-bg-error: rgba(178, 58, 72, 0.08);
+            --badge-border-error: rgba(178, 58, 72, 0.4);
+            --badge-text-error: #B23A48;
+
             --radius-lg: 20px;
             --radius-md: 12px;
-            --radius-sm: 8px;
-            --warn: #e11d48;
-            --success-bg: rgba(16,185,129,0.12);
-            --success-border: rgba(16,185,129,0.4);
-            --success-text: #10b981;
-            --error-bg: rgba(239,68,68,0.12);
-            --error-border: rgba(239,68,68,0.4);
-            --error-text: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at 20% 20%, rgba(14,165,233,0.18) 0%, rgba(15,23,42,0) 60%),
-                        radial-gradient(circle at 80% 10%, rgba(6,182,212,0.15) 0%, rgba(15,23,42,0) 70%),
-                        linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            background:
+                radial-gradient(circle at 40% 30%, var(--ring-soft) 0%, rgba(0,0,0,0) 60%),
+                linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -46,34 +51,34 @@
             width: 100%;
             max-width: 600px;
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
             border-radius: var(--radius-lg);
             border: 1px solid var(--card-border);
             box-shadow:
-                0 30px 120px rgba(0,0,0,0.8),
-                0 0 120px rgba(14,165,233,0.2);
+                0 28px 90px rgba(0,0,0,0.6),
+                0 8px 32px rgba(0,0,0,0.4);
             overflow: hidden;
         }
 
         .form-header {
-            padding: 32px 28px 24px;
+            padding: 28px 24px 20px;
             text-align: center;
-            border-bottom: 1px solid rgba(148,163,184,0.12);
-            background: radial-gradient(circle at 50% 0%, rgba(14,165,233,0.12) 0%, rgba(0,0,0,0) 70%);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(217,209,198,0.4) 0%, rgba(255,255,255,0) 70%);
         }
 
         .brand-row {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .logo {
             width: 140px;
             height: auto;
             display: block;
-            filter: drop-shadow(0 8px 24px rgba(14,165,233,0.4));
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
         }
 
         .form-header h1 {
@@ -89,13 +94,13 @@
         }
 
         .form-body {
-            padding: 28px;
+            padding: 24px;
         }
 
         .message {
             display: none;
             border-radius: var(--radius-md);
-            padding: 16px 18px;
+            padding: 14px 16px;
             font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 20px;
@@ -103,15 +108,15 @@
         }
 
         .success-message {
-            background: var(--success-bg);
-            border: 1px solid var(--success-border);
-            color: var(--success-text);
+            background: var(--badge-bg-success);
+            border: 1px solid var(--badge-border-success);
+            color: var(--badge-text-success);
         }
 
         .error-message {
-            background: var(--error-bg);
-            border: 1px solid var(--error-border);
-            color: var(--error-text);
+            background: var(--badge-bg-error);
+            border: 1px solid var(--badge-border-error);
+            color: var(--badge-text-error);
         }
 
         .form-group {
@@ -129,7 +134,7 @@
         }
 
         .required {
-            color: var(--warn);
+            color: #B23A48;
             font-size: 0.8rem;
             font-weight: 500;
             margin-right: 4px;
@@ -140,27 +145,28 @@
         input[type="tel"],
         textarea {
             width: 100%;
-            background: rgba(15,23,42,0.6);
+            background: #FFFFFF;
             color: var(--text-main);
-            border: 1px solid rgba(148,163,184,0.25);
+            border: 1px solid rgba(0,0,0,0.18);
             border-radius: var(--radius-md);
             padding: 14px 16px;
             font-size: 1rem;
             font-family: inherit;
             line-height: 1.5;
             outline: none;
-            transition: all 0.18s ease;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 0 0 rgba(0,0,0,0);
         }
 
         input::placeholder,
         textarea::placeholder {
-            color: #64748b;
+            color: var(--text-light);
         }
 
         input:focus,
         textarea:focus {
-            border-color: var(--accent-end);
-            box-shadow: 0 0 16px rgba(14,165,233,0.4);
+            border-color: var(--accent-start);
+            box-shadow: 0 0 0 3px rgba(86,118,107,0.18);
         }
 
         textarea {
@@ -177,9 +183,8 @@
 
         .submit-btn {
             width: 100%;
-            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%),
-                        linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
-            color: #0f172a;
+            background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+            color: #F9F8F6;
             font-weight: 600;
             font-size: 1rem;
             border: 0;
@@ -190,30 +195,30 @@
             outline: none;
             position: relative;
             box-shadow:
-                0 20px 60px rgba(14,165,233,0.45),
-                0 2px 4px rgba(0,0,0,0.6);
+                0 20px 40px rgba(0,0,0,0.4),
+                0 4px 16px rgba(86,118,107,0.4);
             transition: all 0.16s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .submit-btn span.spinner {
             display: none;
-            margin-left: 8px;
-            border: 2px solid rgba(15,23,42,0.3);
-            border-top-color: #0f172a;
+            border: 2px solid rgba(249,248,246,0.3);
+            border-top-color: #F9F8F6;
             border-radius: 50%;
             width: 16px;
             height: 16px;
             animation: spin 0.6s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .submit-btn[aria-busy="true"] {
-            opacity: 0.8;
+            opacity: 0.75;
             cursor: progress;
-            transform: translateY(0);
         }
 
         .submit-btn[aria-busy="true"] span.spinner {
@@ -221,10 +226,11 @@
         }
 
         .submit-btn:hover:not([disabled]):not([aria-busy="true"]) {
-            transform: translateY(-2px) scale(1.01);
+            filter: brightness(1.05);
             box-shadow:
-                0 30px 80px rgba(14,165,233,0.6),
-                0 4px 8px rgba(0,0,0,0.8);
+                0 28px 60px rgba(0,0,0,0.6),
+                0 8px 24px rgba(86,118,107,0.45);
+            transform: translateY(-2px);
         }
 
         .submit-btn:disabled {
@@ -241,14 +247,14 @@
         }
 
         .footer-hint strong {
-            color: var(--accent-solid);
+            color: var(--text-main);
             font-weight: 600;
         }
 
         @media (max-width: 600px) {
             .form-header h1 { font-size: 1.2rem; }
             .form-header p { font-size: 0.8rem; }
-            .form-body { padding: 24px 20px; }
+            .form-body { padding: 20px; }
         }
     </style>
 </head>
@@ -311,7 +317,8 @@
                 </button>
 
                 <div class="footer-hint">
-                    بالدفع أنت توافق أنه يتم تجهيز أسماءك بشكل خاص لك، وهذا <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
+                    بالدفع أنت توافق أنه يتم تجهيز أسماءك بشكل خاص لك، وهذا
+                    <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
                 </div>
             </form>
         </div>
@@ -324,13 +331,12 @@
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
 
-        // ضع هنا عنوان الـ webhook الخاص بـ n8n
-        const WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/order-form';
+        const WEBHOOK_URL = 'https://YOUR_N8N_DOMAIN/webhook/order-form';
 
         function parseNames(raw) {
             if (!raw) return [];
             return raw
-                .split(/[\u060C,\n]+/)
+                .split(/[\u060C,\n,]+/)
                 .map(s => s.trim())
                 .filter(Boolean);
         }
@@ -423,4 +429,3 @@
     </script>
 </body>
 </html>
-
