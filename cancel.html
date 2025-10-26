@@ -5,60 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تم إلغاء الطلب</title>
     <style>
-        /* Similar styling but with red/orange colors */
+        :root {
+            --bg-start: #0f172a;
+            --bg-end: #1e293b;
+            --card-bg: rgba(15,23,42,0.8);
+            --card-border: rgba(148,163,184,0.12);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --warn-start: #f97316;
+            --warn-end: #dc2626;
+            --warn-bg: rgba(251,113,133,0.08);
+            --warn-border: rgba(251,113,133,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: radial-gradient(circle at 20% 20%, rgba(251,113,133,0.18) 0%, rgba(15,23,42,0) 60%),
+                        radial-gradient(circle at 80% 10%, rgba(249,115,22,0.15) 0%, rgba(15,23,42,0) 70%),
+                        linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            color: var(--text-main);
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            padding: 50px 30px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 30px 120px rgba(0,0,0,0.8),
+                0 0 120px rgba(251,113,133,0.25);
             max-width: 600px;
+            width: 100%;
+            padding: 32px 24px 28px;
             text-align: center;
+            backdrop-filter: blur(16px);
+        }
+
+        .icon-bubble {
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%),
+                        linear-gradient(135deg, var(--warn-start) 0%, var(--warn-end) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 8px auto 24px;
+            box-shadow:
+                0 20px 60px rgba(251,113,133,0.45),
+                0 2px 4px rgba(0,0,0,0.6);
+            font-size: 56px;
+            line-height: 1;
         }
 
         h1 {
-            color: #333;
-            font-size: 32px;
-            margin: 20px 0;
-        }
-
-        p {
-            color: #666;
-            font-size: 18px;
-            line-height: 1.8;
-            margin: 20px 0;
-        }
-
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 40px;
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 18px;
+            color: var(--text-main);
+            font-size: 1.6rem;
             font-weight: 600;
-            margin-top: 20px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        p.lead {
+            color: var(--text-dim);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .warn-box {
+            background: var(--warn-bg);
+            border-right: 4px solid var(--warn-end);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--warn-border);
+            padding: 18px 20px 16px;
+            text-align: right;
+            margin: 24px 0 32px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-main);
+        }
+
+        .warn-box strong {
+            display: block;
+            color: #fff;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%),
+                        linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
+            color: #0f172a;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            box-shadow:
+                0 20px 60px rgba(14,165,233,0.45),
+                0 2px 4px rgba(0,0,0,0.6);
+            transition: all 0.16s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow:
+                0 30px 80px rgba(14,165,233,0.6),
+                0 4px 8px rgba(0,0,0,0.8);
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148,163,184,0.12);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 28px 20px 24px; }
+            h1 { font-size: 1.3rem; }
+            p.lead { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div style="font-size: 80px;">😔</div>
-        <h1>تم إلغاء الطلب</h1>
-        <p>لم يتم إكمال عملية الدفع. لا توجد أي رسوم على حسابك.</p>
-        <p>يمكنك المحاولة مرة أخرى متى شئت!</p>
-        <a href="https://printitstore.github.io/STL.arabic.names/" class="btn">
+
+        <div class="icon-bubble">😔</div>
+
+        <h1>تم إلغاء العملية</h1>
+        <p class="lead">
+            الدفع ما اكتمل، وما تم سحب أي مبلغ من بطاقتك.
+        </p>
+        <p class="lead">
+            لو كنت بس رجعت خطوة للخلف بالغلط، تقدر تعيد المحاولة.
+        </p>
+
+        <div class="warn-box">
+            <strong>هل تم الخصم من البطاقة؟</strong>
+            لو البنك أظهر خصم معلّق (pending) عادة ينلغي تلقائياً من مزود الدفع خلال فترة قصيرة.
+        </div>
+
+        <a href="https://printitstore.github.io/STL.arabic.names/" class="btn-primary">
             العودة للصفحة الرئيسية
         </a>
+
+        <div class="footer">
+            لو واجهتك مشكلة في الدفع أرسل لنا لقطة شاشة من الخطأ، ونخدمك يدوي.
+        </div>
     </div>
 </body>
 </html>
