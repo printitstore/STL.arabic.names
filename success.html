@@ -3,222 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تم الدفع بنجاح! ✅</title>
+    <title>تم الدفع بنجاح ✅</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-start: #0f172a;
+            --bg-end: #1e293b;
+            --card-bg: rgba(15,23,42,0.8);
+            --card-border: rgba(148,163,184,0.12);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent-start: #06b6d4;
+            --accent-end: #0ea5e9;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --success-circle-start: #10b981;
+            --success-circle-end: #059669;
+            --timeline-bg: rgba(251,191,36,0.08);
+            --timeline-border: rgba(251,191,36,0.6);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: radial-gradient(circle at 20% 20%, rgba(16,185,129,0.18) 0%, rgba(15,23,42,0) 60%),
+                        radial-gradient(circle at 80% 10%, rgba(6,182,212,0.15) 0%, rgba(15,23,42,0) 70%),
+                        linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            color: var(--text-main);
         }
 
         .success-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 30px 120px rgba(0,0,0,0.8),
+                0 0 120px rgba(16,185,129,0.25);
             max-width: 600px;
             width: 100%;
-            padding: 50px 30px;
+            padding: 32px 24px 28px;
             text-align: center;
+            backdrop-filter: blur(16px);
+        }
+
+        .logo-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 8px 24px rgba(16,185,129,0.4));
         }
 
         .success-icon {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #52c234 0%, #3d9e2a 100%);
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%),
+                        linear-gradient(135deg, var(--success-circle-start) 0%, var(--success-circle-end) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 30px;
+            margin: 8px auto 24px;
             animation: scaleIn 0.5s ease-out;
+            box-shadow:
+                0 20px 60px rgba(16,185,129,0.45),
+                0 2px 4px rgba(0,0,0,0.6);
         }
 
         @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
+            from { transform: scale(0); }
+            to { transform: scale(1); }
         }
 
         .checkmark {
-            width: 60px;
-            height: 60px;
-            border: 6px solid white;
+            width: 56px;
+            height: 56px;
+            border: 5px solid #0f172a;
             border-radius: 50%;
             position: relative;
+            background: rgba(15,23,42,0.15);
         }
 
         .checkmark::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 35px;
-            border: solid white;
-            border-width: 0 6px 6px 0;
+            width: 18px;
+            height: 32px;
+            border: solid #0f172a;
+            border-width: 0 5px 5px 0;
             transform: rotate(45deg);
-            top: 5px;
-            left: 15px;
+            top: 4px;
+            left: 14px;
         }
 
         h1 {
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 15px;
+            color: var(--text-main);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
         .subtitle {
-            color: #666;
-            font-size: 18px;
-            margin-bottom: 30px;
+            color: var(--text-dim);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
         }
 
         .info-box {
-            background: #f8f9ff;
-            border-right: 4px solid #667eea;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 30px 0;
+            background: rgba(15,23,42,0.6);
+            border-right: 4px solid var(--accent-end);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(148,163,184,0.16);
+            padding: 20px 20px 16px;
             text-align: right;
+            margin: 20px 0 28px;
         }
 
         .info-box h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 20px;
+            color: var(--accent-end);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
         .info-box p {
-            color: #555;
-            line-height: 1.8;
-            font-size: 16px;
+            color: var(--text-main);
+            line-height: 1.7;
+            font-size: 0.9rem;
         }
 
         .timeline {
-            background: #fff9e6;
-            border-right: 4px solid #ffc107;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px 0;
+            background: var(--timeline-bg);
+            border-right: 4px solid var(--timeline-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            text-align: right;
+        }
+
+        .timeline > h3 {
+            color: #facc15;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 16px;
         }
 
         .timeline-item {
             display: flex;
-            align-items: start;
-            margin-bottom: 15px;
+            align-items: flex-start;
             text-align: right;
+            margin-bottom: 16px;
         }
 
         .timeline-item:last-child {
-            margin-bottom: 0;
+            margin-bottom: 4px;
         }
 
         .timeline-icon {
-            font-size: 24px;
-            margin-left: 15px;
-        }
-
-        .timeline-text {
-            flex: 1;
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-left: 12px;
+            min-width: 1.2rem;
+            text-shadow: 0 8px 16px rgba(0,0,0,0.6);
         }
 
         .timeline-text strong {
             display: block;
-            color: #333;
-            margin-bottom: 5px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
 
         .timeline-text span {
-            color: #666;
-            font-size: 14px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            line-height: 1.6;
         }
 
         .btn-primary {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 40px;
+            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%),
+                        linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+            color: #0f172a;
+            padding: 14px 32px;
             text-decoration: none;
-            border-radius: 10px;
-            font-size: 18px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
             font-weight: 600;
-            margin-top: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 28px;
+            line-height: 1.4;
+            box-shadow:
+                0 20px 60px rgba(14,165,233,0.45),
+                0 2px 4px rgba(0,0,0,0.6);
+            transition: all 0.16s ease;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow:
+                0 30px 80px rgba(14,165,233,0.6),
+                0 4px 8px rgba(0,0,0,0.8);
         }
 
         .footer {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid #eee;
-            color: #999;
-            font-size: 14px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(148,163,184,0.12);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .footer .brand {
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-end);
         }
 
         @media (max-width: 600px) {
-            .success-container {
-                padding: 40px 20px;
-            }
-
-            h1 {
-                font-size: 26px;
-            }
-
-            .subtitle {
-                font-size: 16px;
-            }
+            .success-container { padding: 28px 20px 24px; }
+            h1 { font-size: 1.3rem; }
+            .subtitle { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
     <div class="success-container">
+        <div class="logo-wrap">
+            <img src="FINAL.svg" alt="PrintIt Store" class="logo">
+        </div>
+
         <div class="success-icon">
             <div class="checkmark"></div>
         </div>
 
         <h1>تم الدفع بنجاح! 🎉</h1>
-        <p class="subtitle">شكراً لك! تم استلام طلبك وسيتم تجهيز ملفاتك قريباً</p>
+        <p class="subtitle">شكراً لك. الطلب انحجز رسميًا بنجاح 🙌</p>
 
         <div class="info-box">
-            <h3>📧 تحقق من بريدك الإلكتروني</h3>
+            <h3>📧 مهم: افحص بريدك الآن</h3>
             <p>
-                تم إرسال تأكيد الطلب إلى بريدك الإلكتروني.
+                أرسلنا لك تأكيد الدفع.
                 <br>
-                ستصلك رسالة أخرى خلال <strong>24 ساعة</strong> تحتوي على ملفات الميداليات جاهزة للطباعة!
+                خلال <strong>24 ساعة</strong> توصلك ملفات الميداليات بصيغة جاهزة للطباعة.
+                <br>
+                لو ما وصلت الرسالة، افحص مجلد السبام / البريد غير الهام.
             </p>
         </div>
 
         <div class="timeline">
-            <h3 style="color: #f57c00; margin-bottom: 20px;">⏱️ ماذا سيحدث الآن؟</h3>
-            
+            <h3>⏱️ ماذا سيحدث الآن؟</h3>
+
             <div class="timeline-item">
                 <span class="timeline-icon">✅</span>
                 <div class="timeline-text">
-                    <strong>1. تم استلام الطلب</strong>
-                    <span>تم تأكيد الدفع بنجاح</span>
+                    <strong>1. الطلب استلمناه</strong>
+                    <span>تم تأكيد الدفع وتسجيل بياناتك</span>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <span class="timeline-icon">🎨</span>
                 <div class="timeline-text">
-                    <strong>2. جاري التجهيز</strong>
-                    <span>سيتم تصميم وتجهيز ملفات الميداليات</span>
+                    <strong>2. شغل التصميم</strong>
+                    <span>نجهز كل الأسماء بالخط العربي المخصص للطباعة</span>
                 </div>
             </div>
 
@@ -226,15 +289,15 @@
                 <span class="timeline-icon">📥</span>
                 <div class="timeline-text">
                     <strong>3. الإرسال</strong>
-                    <span>ستصلك الملفات عبر البريد خلال 24 ساعة</span>
+                    <span>توصلك الملفات بصيغة جاهزة للقص والطباعة</span>
                 </div>
             </div>
 
             <div class="timeline-item">
                 <span class="timeline-icon">🖨️</span>
                 <div class="timeline-text">
-                    <strong>4. الطباعة</strong>
-                    <span>يمكنك طباعة الميداليات مباشرة!</span>
+                    <strong>4. جاهز للطباعة</strong>
+                    <span>تقدر تسلمها لأي محل قص ليزر أو طباعة وتشغلها مباشرة</span>
                 </div>
             </div>
         </div>
@@ -244,10 +307,8 @@
         </a>
 
         <div class="footer">
-            <p>في حال وجود أي استفسار، لا تتردد في التواصل معنا</p>
-            <p style="margin-top: 10px; color: #667eea; font-weight: 600;">
-                شكراً لاختيارك PrintIt Store! ❤️
-            </p>
+            <div>عندك تعديل على تهجئة اسم؟ عطنا خبر الآن قبل ما نرسل الملف النهائي.</div>
+            <div class="brand">PrintIt Store 🤍</div>
         </div>
     </div>
 </body>
