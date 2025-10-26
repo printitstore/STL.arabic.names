@@ -6,29 +6,36 @@
     <title>تم الدفع بنجاح ✅</title>
     <style>
         :root {
-            --bg-start: #0f172a;
-            --bg-end: #1e293b;
-            --card-bg: rgba(15,23,42,0.8);
-            --card-border: rgba(148,163,184,0.12);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --accent-start: #06b6d4;
-            --accent-end: #0ea5e9;
+            --bg-start: #2E2A29;
+            --bg-end: #4A4C5D;
+            --ring-soft: rgba(217, 209, 198, 0.15);
+
+            --card-bg: #F9F8F6;
+            --card-border: rgba(0,0,0,0.07);
+
+            --text-main: #2E2A29;
+            --text-dim: #6B6B6B;
+
+            --accent-start: #56766B;
+            --accent-end: #6F8F84;
+
+            --success-start: #4CAF50;
+            --success-end: #2E7D32;
+
+            --timeline-bg: rgba(251,191,36,0.07);
+            --timeline-border: rgba(251,191,36,0.45);
+
             --radius-lg: 20px;
             --radius-md: 12px;
-            --success-circle-start: #10b981;
-            --success-circle-end: #059669;
-            --timeline-bg: rgba(251,191,36,0.08);
-            --timeline-border: rgba(251,191,36,0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at 20% 20%, rgba(16,185,129,0.18) 0%, rgba(15,23,42,0) 60%),
-                        radial-gradient(circle at 80% 10%, rgba(6,182,212,0.15) 0%, rgba(15,23,42,0) 70%),
-                        linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            background:
+                radial-gradient(circle at 40% 30%, var(--ring-soft) 0%, rgba(0,0,0,0) 60%),
+                linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -42,13 +49,12 @@
             border-radius: var(--radius-lg);
             border: 1px solid var(--card-border);
             box-shadow:
-                0 30px 120px rgba(0,0,0,0.8),
-                0 0 120px rgba(16,185,129,0.25);
+                0 28px 90px rgba(0,0,0,0.6),
+                0 8px 32px rgba(0,0,0,0.4);
             max-width: 600px;
             width: 100%;
-            padding: 32px 24px 28px;
+            padding: 28px 24px 24px;
             text-align: center;
-            backdrop-filter: blur(16px);
         }
 
         .logo-wrap {
@@ -56,43 +62,40 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .logo {
             width: 120px;
             height: auto;
-            filter: drop-shadow(0 8px 24px rgba(16,185,129,0.4));
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
         }
 
         .success-icon {
             width: 110px;
             height: 110px;
-            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%),
-                        linear-gradient(135deg, var(--success-circle-start) 0%, var(--success-circle-end) 100%);
+            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%),
+                        linear-gradient(135deg, var(--success-start) 0%, var(--success-end) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 8px auto 24px;
-            animation: scaleIn 0.5s ease-out;
             box-shadow:
-                0 20px 60px rgba(16,185,129,0.45),
-                0 2px 4px rgba(0,0,0,0.6);
+                0 20px 40px rgba(0,0,0,0.4),
+                0 8px 24px rgba(46,125,50,0.45);
+            animation: scaleIn 0.5s ease-out;
         }
 
-        @keyframes scaleIn {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
+        @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
 
         .checkmark {
             width: 56px;
             height: 56px;
-            border: 5px solid #0f172a;
+            border: 5px solid #F9F8F6;
             border-radius: 50%;
             position: relative;
-            background: rgba(15,23,42,0.15);
+            background: rgba(0,0,0,0.12);
         }
 
         .checkmark::after {
@@ -100,7 +103,7 @@
             position: absolute;
             width: 18px;
             height: 32px;
-            border: solid #0f172a;
+            border: solid #F9F8F6;
             border-width: 0 5px 5px 0;
             transform: rotate(45deg);
             top: 4px;
@@ -109,7 +112,7 @@
 
         h1 {
             color: var(--text-main);
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 8px;
             line-height: 1.4;
@@ -123,17 +126,17 @@
         }
 
         .info-box {
-            background: rgba(15,23,42,0.6);
-            border-right: 4px solid var(--accent-end);
+            background: #ffffff;
+            border-right: 4px solid var(--accent-start);
             border-radius: var(--radius-md);
-            border: 1px solid rgba(148,163,184,0.16);
-            padding: 20px 20px 16px;
+            border: 1px solid rgba(0,0,0,0.08);
+            padding: 20px;
             text-align: right;
             margin: 20px 0 28px;
         }
 
         .info-box h3 {
-            color: var(--accent-end);
+            color: var(--accent-start);
             margin-bottom: 10px;
             font-size: 1rem;
             font-weight: 600;
@@ -154,7 +157,7 @@
         }
 
         .timeline > h3 {
-            color: #facc15;
+            color: #b45309;
             font-size: 1rem;
             font-weight: 600;
             line-height: 1.4;
@@ -177,7 +180,7 @@
             line-height: 1;
             margin-left: 12px;
             min-width: 1.2rem;
-            text-shadow: 0 8px 16px rgba(0,0,0,0.6);
+            color: var(--text-main);
         }
 
         .timeline-text strong {
@@ -196,9 +199,8 @@
 
         .btn-primary {
             display: inline-block;
-            background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%),
-                        linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
-            color: #0f172a;
+            background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+            color: #F9F8F6;
             padding: 14px 32px;
             text-decoration: none;
             border-radius: var(--radius-md);
@@ -207,22 +209,23 @@
             margin-top: 28px;
             line-height: 1.4;
             box-shadow:
-                0 20px 60px rgba(14,165,233,0.45),
-                0 2px 4px rgba(0,0,0,0.6);
+                0 20px 40px rgba(0,0,0,0.4),
+                0 8px 24px rgba(86,118,107,0.45);
             transition: all 0.16s ease;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px) scale(1.01);
+            filter: brightness(1.05);
             box-shadow:
-                0 30px 80px rgba(14,165,233,0.6),
-                0 4px 8px rgba(0,0,0,0.8);
+                0 28px 60px rgba(0,0,0,0.6),
+                0 8px 24px rgba(86,118,107,0.5);
+            transform: translateY(-2px);
         }
 
         .footer {
             margin-top: 32px;
             padding-top: 24px;
-            border-top: 1px solid rgba(148,163,184,0.12);
+            border-top: 1px solid rgba(0,0,0,0.08);
             color: var(--text-dim);
             font-size: 0.8rem;
             line-height: 1.6;
@@ -232,11 +235,11 @@
             margin-top: 10px;
             font-weight: 600;
             font-size: 0.85rem;
-            color: var(--accent-end);
+            color: var(--accent-start);
         }
 
         @media (max-width: 600px) {
-            .success-container { padding: 28px 20px 24px; }
+            .success-container { padding: 24px 20px 20px; }
             h1 { font-size: 1.3rem; }
             .subtitle { font-size: 0.9rem; }
         }
@@ -253,7 +256,7 @@
         </div>
 
         <h1>تم الدفع بنجاح! 🎉</h1>
-        <p class="subtitle">شكراً لك. الطلب انحجز رسميًا بنجاح 🙌</p>
+        <p class="subtitle">الطلب تأكد رسميًا وتم تسجيل بياناتك.</p>
 
         <div class="info-box">
             <h3>📧 مهم: افحص بريدك الآن</h3>
@@ -262,7 +265,7 @@
                 <br>
                 خلال <strong>24 ساعة</strong> توصلك ملفات الميداليات بصيغة جاهزة للطباعة.
                 <br>
-                لو ما وصلت الرسالة، افحص مجلد السبام / البريد غير الهام.
+                لو ما شفت الرسالة، شيّك مجلد السبام / البريد غير الهام.
             </p>
         </div>
 
@@ -272,8 +275,8 @@
             <div class="timeline-item">
                 <span class="timeline-icon">✅</span>
                 <div class="timeline-text">
-                    <strong>1. الطلب استلمناه</strong>
-                    <span>تم تأكيد الدفع وتسجيل بياناتك</span>
+                    <strong>1. الطلب مسجل</strong>
+                    <span>تم تأكيد الدفع وتسجيل معلوماتك</span>
                 </div>
             </div>
 
@@ -281,7 +284,7 @@
                 <span class="timeline-icon">🎨</span>
                 <div class="timeline-text">
                     <strong>2. شغل التصميم</strong>
-                    <span>نجهز كل الأسماء بالخط العربي المخصص للطباعة</span>
+                    <span>نجهز كل الأسماء بخط عربي نظيف للطباعة</span>
                 </div>
             </div>
 
@@ -289,7 +292,7 @@
                 <span class="timeline-icon">📥</span>
                 <div class="timeline-text">
                     <strong>3. الإرسال</strong>
-                    <span>توصلك الملفات بصيغة جاهزة للقص والطباعة</span>
+                    <span>نرسل الملفات الجاهزة للقص/الطباعة على بريدك</span>
                 </div>
             </div>
 
@@ -297,7 +300,7 @@
                 <span class="timeline-icon">🖨️</span>
                 <div class="timeline-text">
                     <strong>4. جاهز للطباعة</strong>
-                    <span>تقدر تسلمها لأي محل قص ليزر أو طباعة وتشغلها مباشرة</span>
+                    <span>تعطيها للمطبعة/الليزر وتطبعها مباشرة</span>
                 </div>
             </div>
         </div>
@@ -307,7 +310,7 @@
         </a>
 
         <div class="footer">
-            <div>عندك تعديل على تهجئة اسم؟ عطنا خبر الآن قبل ما نرسل الملف النهائي.</div>
+            <div>عندك تعديل على تهجئة اسم؟ بلغنا قبل ما نرسل النسخة النهائية.</div>
             <div class="brand">PrintIt Store 🤍</div>
         </div>
     </div>
