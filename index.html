@@ -269,6 +269,7 @@
         </div>
 
         <div class="form-body">
+            <!-- status messages -->
             <div id="successMessage" class="message success-message" role="status" aria-live="polite"></div>
             <div id="errorMessage" class="message error-message" role="alert" aria-live="assertive"></div>
 
@@ -278,7 +279,14 @@
                         <span>الاسم الكامل</span>
                         <span class="required">*</span>
                     </label>
-                    <input type="text" id="customerName" name="customerName" required placeholder="أدخل اسمك الكامل" autocomplete="name" />
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        required
+                        placeholder="أدخل اسمك الكامل"
+                        autocomplete="name"
+                    />
                 </div>
 
                 <div class="form-group">
@@ -286,7 +294,14 @@
                         <span>البريد الإلكتروني</span>
                         <span class="required">*</span>
                     </label>
-                    <input type="email" id="email" name="email" required placeholder="example@email.com" autocomplete="email" />
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        placeholder="example@email.com"
+                        autocomplete="email"
+                    />
                     <div class="help-text">راح نرسل عليك الملفات النهائية بصيغة جاهزة للطباعة</div>
                 </div>
 
@@ -295,7 +310,13 @@
                         <span>رقم الجوال</span>
                         <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">(اختياري)</span>
                     </label>
-                    <input type="tel" id="phone" name="phone" placeholder="+966 5xxxxxxxx" inputmode="tel" />
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="+966 5xxxxxxxx"
+                        inputmode="tel"
+                    />
                 </div>
 
                 <div class="form-group">
@@ -303,7 +324,12 @@
                         <span>الأسماء المطلوبة بالعربي</span>
                         <span class="required">*</span>
                     </label>
-                    <textarea id="arabicNames" name="arabicNames" required placeholder="محمد، عبدالله، علي، ..."></textarea>
+                    <textarea
+                        id="arabicNames"
+                        name="arabicNames"
+                        required
+                        placeholder="محمد، عبدالله، علي، ..."
+                    ></textarea>
                     <div class="help-text">
                         افصل الأسماء بـ (،) أو (,)
                         <br>مثال: محمد، دانا، شهد، فيصل
@@ -317,8 +343,8 @@
                 </button>
 
                 <div class="footer-hint">
-                    بالدفع أنت توافق أنه يتم تجهيز أسماءك بشكل خاص لك، وهذا
-                    <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
+                    بالدفع أنت توافق أنه يتم تجهيز أسماءك بشكل خاص لك،
+                    وهذا <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
                 </div>
             </form>
         </div>
@@ -331,12 +357,13 @@
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
 
-        const WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/order-form';
+        // TODO: put your actual n8n webhook URL here
+        const WEBHOOK_URL = 'https://YOUR_N8N_WEBHOOK_URL';
 
         function parseNames(raw) {
             if (!raw) return [];
             return raw
-                .split(/[\u060C,\n,]+/)
+                .split(/[\u060C,\n,]+/) // Arabic comma, English comma, or newline
                 .map(s => s.trim())
                 .filter(Boolean);
         }
@@ -344,7 +371,9 @@
         function setBusy(busy) {
             submitBtn.disabled = busy;
             submitBtn.setAttribute('aria-busy', String(busy));
-            submitBtn.querySelector('.label').textContent = busy ? 'جاري الإرسال...' : 'متابعة للدفع 💳';
+            submitBtn.querySelector('.label').textContent = busy
+                ? 'جاري الإرسال...'
+                : 'متابعة للدفع 💳';
         }
 
         function showSuccess(text) {
@@ -372,6 +401,7 @@
             const phone = document.getElementById('phone').value.trim();
             const rawNames = document.getElementById('arabicNames').value;
 
+            // basic required validation
             if (!customerName || !email) {
                 showError('الرجاء ملء الاسم والبريد.');
                 setBusy(false);
@@ -385,6 +415,7 @@
                 return;
             }
 
+            // payload we send to n8n
             const payload = {
                 customerName,
                 email,
@@ -401,23 +432,33 @@
                 });
 
                 let result = null;
-                try { result = await resp.json(); } catch (err) {}
+                try {
+                    result = await resp.json();
+                } catch (err) {
+                    // if backend didn't send valid json
+                }
 
                 if (!resp.ok) {
-                    const msg = (result && result.message) ? result.message : 'فشل إرسال الطلب. جرّب بعد شوي.';
+                    const msg = (result && result.message)
+                        ? result.message
+                        : 'فشل إرسال الطلب. جرّب بعد شوي.';
                     throw new Error(msg);
                 }
 
+                // if n8n returned paymentUrl, redirect to PayPal now
                 if (result && result.paymentUrl) {
                     showSuccess('✅ تم إرسال طلبك! جاري تحويلك لصفحة الدفع...');
                     form.reset();
-                    setTimeout(() => {
-                        window.location.href = result.paymentUrl;
-                    }, 1200);
-                } else {
-                    showSuccess((result && (result.message || '✅ تم إرسال الطلب بنجاح.')) || '✅ تم الإرسال.');
-                    form.reset();
+
+                    // redirect to PayPal checkout page
+                    window.location.href = result.paymentUrl;
+                    return;
                 }
+
+                // fallback if for some reason we didn't get paymentUrl
+                showSuccess('✅ تم إرسال الطلب بنجاح.');
+                form.reset();
+
             } catch (err) {
                 console.error(err);
                 showError(err.message || 'حدث خطأ أثناء الإرسال.');
@@ -429,4 +470,3 @@
     </script>
 </body>
 </html>
-
