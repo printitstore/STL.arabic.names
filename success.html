@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم الدفع بنجاح! ✅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #52c234 0%, #3d9e2a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .checkmark {
+            width: 60px;
+            height: 60px;
+            border: 6px solid white;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .checkmark::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 35px;
+            border: solid white;
+            border-width: 0 6px 6px 0;
+            transform: rotate(45deg);
+            top: 5px;
+            left: 15px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #f8f9ff;
+            border-right: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: right;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-box p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .timeline {
+            background: #fff9e6;
+            border-right: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-icon {
+            font-size: 24px;
+            margin-left: 15px;
+        }
+
+        .timeline-text {
+            flex: 1;
+        }
+
+        .timeline-text strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timeline-text span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .success-container {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <div class="checkmark"></div>
+        </div>
+
+        <h1>تم الدفع بنجاح! 🎉</h1>
+        <p class="subtitle">شكراً لك! تم استلام طلبك وسيتم تجهيز ملفاتك قريباً</p>
+
+        <div class="info-box">
+            <h3>📧 تحقق من بريدك الإلكتروني</h3>
+            <p>
+                تم إرسال تأكيد الطلب إلى بريدك الإلكتروني.
+                <br>
+                ستصلك رسالة أخرى خلال <strong>24 ساعة</strong> تحتوي على ملفات الميداليات جاهزة للطباعة!
+            </p>
+        </div>
+
+        <div class="timeline">
+            <h3 style="color: #f57c00; margin-bottom: 20px;">⏱️ ماذا سيحدث الآن؟</h3>
+            
+            <div class="timeline-item">
+                <span class="timeline-icon">✅</span>
+                <div class="timeline-text">
+                    <strong>1. تم استلام الطلب</strong>
+                    <span>تم تأكيد الدفع بنجاح</span>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-icon">🎨</span>
+                <div class="timeline-text">
+                    <strong>2. جاري التجهيز</strong>
+                    <span>سيتم تصميم وتجهيز ملفات الميداليات</span>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-icon">📥</span>
+                <div class="timeline-text">
+                    <strong>3. الإرسال</strong>
+                    <span>ستصلك الملفات عبر البريد خلال 24 ساعة</span>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-icon">🖨️</span>
+                <div class="timeline-text">
+                    <strong>4. الطباعة</strong>
+                    <span>يمكنك طباعة الميداليات مباشرة!</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="https://printitstore.github.io/STL.arabic.names/" class="btn-primary">
+            العودة للصفحة الرئيسية
+        </a>
+
+        <div class="footer">
+            <p>في حال وجود أي استفسار، لا تتردد في التواصل معنا</p>
+            <p style="margin-top: 10px; color: #667eea; font-weight: 600;">
+                شكراً لاختيارك PrintIt Store! ❤️
+            </p>
+        </div>
+    </div>
+</body>
+</html>
