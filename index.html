@@ -446,12 +446,14 @@
                 }
 
                 // if n8n returned paymentUrl, redirect to PayPal now
+                // if n8n returned paymentUrl, redirect to confirmation page
                 if (result && result.paymentUrl) {
-                    showSuccess('✅ تم إرسال طلبك! جاري تحويلك لصفحة الدفع...');
-                    form.reset();
-
-                    // redirect to PayPal checkout page
-                    window.location.href = result.paymentUrl;
+                    showSuccess('✅ تم إرسال طلبك! جاري تحويلك لصفحة التأكيد...');
+                    
+                    // Redirect to confirmation page with order data
+                    const confirmUrl = `confirmation.html?orderId=${result.orderId || Date.now()}&paymentUrl=${encodeURIComponent(result.paymentUrl)}&amount=${result.amount || totalPrice}&currency=${result.currency || 'USD'}&names=${encodeURIComponent(namesText)}&numberOfNames=${numberOfNames}`;
+                    
+                    window.location.href = confirmUrl;
                     return;
                 }
 
@@ -470,4 +472,5 @@
     </script>
 </body>
 </html>
+
 
