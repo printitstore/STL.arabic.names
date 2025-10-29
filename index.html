@@ -251,6 +251,66 @@
             font-weight: 600;
         }
 
+        /* Payment Section Styles */
+        #paymentSection {
+            display: none;
+            margin-top: 24px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .order-summary {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--badge-bg-success);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--badge-border-success);
+        }
+
+        .order-summary h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .order-summary-item.total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 2px solid var(--badge-border-success);
+        }
+
+        #fastlaneContainer {
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid rgba(0,0,0,0.2);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            transition: all 0.15s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.3);
+        }
+
         @media (max-width: 600px) {
             .form-header h1 { font-size: 1.2rem; }
             .form-header p { font-size: 0.8rem; }
@@ -273,6 +333,7 @@
             <div id="successMessage" class="message success-message" role="status" aria-live="polite"></div>
             <div id="errorMessage" class="message error-message" role="alert" aria-live="assertive"></div>
 
+            <!-- Customer Form -->
             <form id="orderForm" novalidate>
                 <div class="form-group">
                     <label for="customerName">
@@ -347,8 +408,36 @@
                     وهذا <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
                 </div>
             </form>
+
+            <!-- Payment Section (Hidden Initially) -->
+            <div id="paymentSection">
+                <div class="order-summary">
+                    <h3>ملخص الطلب</h3>
+                    <div class="order-summary-item">
+                        <span>عدد الأسماء:</span>
+                        <span id="summaryNameCount">0</span>
+                    </div>
+                    <div class="order-summary-item">
+                        <span>السعر لكل اسم:</span>
+                        <span id="summaryPricePerName">$0.50</span>
+                    </div>
+                    <div class="order-summary-item total">
+                        <span>المجموع:</span>
+                        <span id="summaryTotal">$0.00</span>
+                    </div>
+                </div>
+
+                <div id="fastlaneContainer"></div>
+
+                <button type="button" class="back-btn" onclick="backToForm()">
+                    ← العودة لتعديل البيانات
+                </button>
+            </div>
         </div>
     </main>
+
+    <!-- PayPal SDK with Fastlane -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AZU-bACdzXgcdZ0mvDw4oWVSdZCZETT7COcorhiOw_WI5w7ill5sVzOwp2VX5_qbXypdL568N9JomnWS&components=buttons,fastlane&currency=USD"></script>
 
     <script>
     (function () {
@@ -356,14 +445,20 @@
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
+        const paymentSection = document.getElementById('paymentSection');
+        const fastlaneContainer = document.getElementById('fastlaneContainer');
 
-        // TODO: put your actual n8n webhook URL here
+        // n8n webhook URLs
         const WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/order-form';
+        const PAYMENT_WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/fastlane-payment-confirmation';
+
+        let currentOrderData = null;
+        let fastlaneInstance = null;
 
         function parseNames(raw) {
             if (!raw) return [];
             return raw
-                .split(/[\u060C,\n,]+/) // Arabic comma, English comma, or newline
+                .split(/[\u060C,\n,]+/)
                 .map(s => s.trim())
                 .filter(Boolean);
         }
@@ -390,6 +485,116 @@
             successMessage.style.display = 'none';
         }
 
+        window.backToForm = function() {
+            form.style.display = 'block';
+            paymentSection.style.display = 'none';
+            showSuccess('');
+            showError('');
+        };
+
+        // Initialize PayPal Fastlane
+        async function initFastlane() {
+            try {
+                if (!window.paypal || !window.paypal.Fastlane) {
+                    throw new Error('PayPal Fastlane not loaded');
+                }
+
+                fastlaneInstance = await window.paypal.Fastlane({
+                    shippingAddressOptions: {
+                        allowedLocations: []
+                    },
+                    cardOptions: {
+                        billingAddressOptions: {
+                            required: false
+                        }
+                    }
+                });
+
+                console.log('Fastlane initialized successfully');
+                return fastlaneInstance;
+            } catch (error) {
+                console.error('Error initializing Fastlane:', error);
+                throw error;
+            }
+        }
+
+        // Show payment UI
+        async function showPaymentUI(orderData) {
+            try {
+                // Hide form, show payment section
+                form.style.display = 'none';
+                paymentSection.style.display = 'block';
+
+                // Update order summary
+                document.getElementById('summaryNameCount').textContent = orderData.numberOfNames;
+                document.getElementById('summaryTotal').textContent = `$${orderData.amount}`;
+
+                // Clear previous payment UI
+                fastlaneContainer.innerHTML = '<p>جاري تحميل طرق الدفع...</p>';
+
+                // Initialize Fastlane if not already done
+                if (!fastlaneInstance) {
+                    await initFastlane();
+                }
+
+                // Render PayPal buttons with Fastlane
+                window.paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'gold',
+                        shape: 'rect',
+                        label: 'paypal'
+                    },
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    currency_code: orderData.currency || 'USD',
+                                    value: orderData.amount
+                                },
+                                description: `Keychain Order - ${orderData.numberOfNames} names`
+                            }]
+                        });
+                    },
+                    onApprove: async function(data, actions) {
+                        try {
+                            const details = await actions.order.capture();
+                            
+                            // Send confirmation to n8n
+                            await fetch(PAYMENT_WEBHOOK_URL, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    orderId: orderData.orderId,
+                                    paymentId: details.id,
+                                    status: details.status,
+                                    amount: orderData.amount,
+                                    currency: orderData.currency,
+                                    email: orderData.email
+                                })
+                            });
+
+                            // Redirect to success page
+                            window.location.href = 'https://printitstore.github.io/STL.arabic.names/success.html';
+                        } catch (error) {
+                            console.error('Payment error:', error);
+                            showError('حدث خطأ أثناء معالجة الدفع. الرجاء المحاولة مرة أخرى.');
+                        }
+                    },
+                    onError: function(err) {
+                        console.error('PayPal error:', err);
+                        showError('حدث خطأ في عملية الدفع. الرجاء المحاولة مرة أخرى.');
+                    }
+                }).render('#fastlaneContainer');
+
+            } catch (error) {
+                console.error('Error showing payment UI:', error);
+                showError('فشل تحميل واجهة الدفع. الرجاء المحاولة مرة أخرى.');
+                backToForm();
+            }
+        }
+
+        // Form submission
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
             setBusy(true);
@@ -401,7 +606,6 @@
             const phone = document.getElementById('phone').value.trim();
             const rawNames = document.getElementById('arabicNames').value;
 
-            // basic required validation
             if (!customerName || !email) {
                 showError('الرجاء ملء الاسم والبريد.');
                 setBusy(false);
@@ -415,7 +619,6 @@
                 return;
             }
 
-            // payload we send to n8n
             const payload = {
                 customerName,
                 email,
@@ -431,33 +634,17 @@
                     body: JSON.stringify(payload),
                 });
 
-                let result = null;
-                try {
-                    result = await resp.json();
-                } catch (err) {
-                    // if backend didn't send valid json
-                }
+                const result = await resp.json();
 
                 if (!resp.ok) {
-                    const msg = (result && result.message)
-                        ? result.message
-                        : 'فشل إرسال الطلب. جرّب بعد شوي.';
-                    throw new Error(msg);
+                    throw new Error(result.message || 'فشل إرسال الطلب.');
                 }
 
-                // if n8n returned paymentUrl, redirect to PayPal now
-                if (result && result.paymentUrl) {
-                    showSuccess('✅ تم إرسال طلبك! جاري تحويلك لصفحة الدفع...');
-                    form.reset();
+                // Store order data
+                currentOrderData = result;
 
-                    // redirect to PayPal checkout page
-                    window.location.href = result.paymentUrl;
-                    return;
-                }
-
-                // fallback if for some reason we didn't get paymentUrl
-                showSuccess('✅ تم إرسال الطلب بنجاح.');
-                form.reset();
+                // Show payment UI
+                await showPaymentUI(result);
 
             } catch (err) {
                 console.error(err);
@@ -470,4 +657,3 @@
     </script>
 </body>
 </html>
-
