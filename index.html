@@ -502,8 +502,8 @@
                 document.getElementById('summaryNameCount').textContent = orderData.numberOfNames;
                 document.getElementById('summaryTotal').textContent = `$${orderData.amount}`;
 
-                // Clear previous payment UI
-                fastlaneContainer.innerHTML = '<p>جاري تحميل طرق الدفع...</p>';
+                // Clear and prepare container
+                fastlaneContainer.innerHTML = '';
 
                 // Render PayPal buttons
                 window.paypal.Buttons({
@@ -533,7 +533,7 @@
                     },
                     onApprove: async function(data, actions) {
                         try {
-                            fastlaneContainer.innerHTML = '<p>جاري معالجة الدفع...</p>';
+                            showSuccess('جاري معالجة الدفع...');
                             const details = await actions.order.capture();
                             
                             // Send confirmation to n8n
@@ -568,9 +568,6 @@
                         backToForm();
                     }
                 }).render('#fastlaneContainer');
-
-                // Clear loading message
-                fastlaneContainer.innerHTML = '';
 
             } catch (error) {
                 console.error('Error showing payment UI:', error);
