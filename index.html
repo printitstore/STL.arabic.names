@@ -455,11 +455,12 @@
                     const numberOfNames = names.length;
                     
                     // Redirect to confirmation page with order data
-                    const confirmUrl = `confirmation.html?orderId=${result.orderId || Date.now()}&paymentUrl=${encodeURIComponent(result.paymentUrl)}&amount=${result.amount || result.totalPrice || '0.00'}&currency=${result.currency || 'USD'}&names=${encodeURIComponent(namesText)}&numberOfNames=${numberOfNames}`;
+                    const confirmUrl = `confirmation.html?orderId=${result.orderId}&paymentUrl=${encodeURIComponent(result.paymentUrl)}&amount=${result.amount}&currency=${result.currency}&names=${encodeURIComponent(namesText)}&numberOfNames=${numberOfNames}`;
                     
                     window.location.href = confirmUrl;
                     return;
                 }
+                
                 // fallback if for some reason we didn't get paymentUrl
                 showSuccess('✅ تم إرسال الطلب بنجاح.');
                 form.reset();
@@ -475,6 +476,7 @@
     </script>
 </body>
 </html>
+
 
 
 
