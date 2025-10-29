@@ -436,8 +436,8 @@
         </div>
     </main>
 
-    <!-- PayPal SDK with Fastlane -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AZU-bACdzXgcdZ0mvDw4oWVSdZCZETT7COcorhiOw_WI5w7ill5sVzOwp2VX5_qbXypdL568N9JomnWS&components=buttons,fastlane&currency=USD"></script>
+    <!-- PayPal SDK (Standard Buttons with Apple Pay support) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AZU-bACdzXgcdZ0mvDw4oWVSdZCZETT7COcorhiOw_WI5w7ill5sVzOwp2VX5_qbXypdL568N9JomnWS&components=buttons&currency=USD&enable-funding=venmo&disable-funding=card"></script>
 
     <script>
     (function () {
@@ -453,7 +453,6 @@
         const PAYMENT_WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/fastlane-payment-confirmation';
 
         let currentOrderData = null;
-        let fastlaneInstance = null;
 
         function parseNames(raw) {
             if (!raw) return [];
@@ -492,32 +491,6 @@
             showError('');
         };
 
-        // Initialize PayPal Fastlane
-        async function initFastlane() {
-            try {
-                if (!window.paypal || !window.paypal.Fastlane) {
-                    throw new Error('PayPal Fastlane not loaded');
-                }
-
-                fastlaneInstance = await window.paypal.Fastlane({
-                    shippingAddressOptions: {
-                        allowedLocations: []
-                    },
-                    cardOptions: {
-                        billingAddressOptions: {
-                            required: false
-                        }
-                    }
-                });
-
-                console.log('Fastlane initialized successfully');
-                return fastlaneInstance;
-            } catch (error) {
-                console.error('Error initializing Fastlane:', error);
-                throw error;
-            }
-        }
-
         // Show payment UI
         async function showPaymentUI(orderData) {
             try {
@@ -532,18 +505,14 @@
                 // Clear previous payment UI
                 fastlaneContainer.innerHTML = '<p>جاري تحميل طرق الدفع...</p>';
 
-                // Initialize Fastlane if not already done
-                if (!fastlaneInstance) {
-                    await initFastlane();
-                }
-
-                // Render PayPal buttons with Fastlane
+                // Render PayPal buttons
                 window.paypal.Buttons({
                     style: {
                         layout: 'vertical',
                         color: 'gold',
                         shape: 'rect',
-                        label: 'paypal'
+                        label: 'paypal',
+                        height: 55
                     },
                     createOrder: function(data, actions) {
                         return actions.order.create({
@@ -552,12 +521,19 @@
                                     currency_code: orderData.currency || 'USD',
                                     value: orderData.amount
                                 },
-                                description: `Keychain Order - ${orderData.numberOfNames} names`
-                            }]
+                                description: `Keychain Order - ${orderData.numberOfNames} names`,
+                                custom_id: orderData.orderId
+                            }],
+                            application_context: {
+                                brand_name: 'PrintIt Store',
+                                locale: 'ar-SA',
+                                shipping_preference: 'NO_SHIPPING'
+                            }
                         });
                     },
                     onApprove: async function(data, actions) {
                         try {
+                            fastlaneContainer.innerHTML = '<p>جاري معالجة الدفع...</p>';
                             const details = await actions.order.capture();
                             
                             // Send confirmation to n8n
@@ -579,13 +555,22 @@
                         } catch (error) {
                             console.error('Payment error:', error);
                             showError('حدث خطأ أثناء معالجة الدفع. الرجاء المحاولة مرة أخرى.');
+                            backToForm();
                         }
                     },
                     onError: function(err) {
                         console.error('PayPal error:', err);
                         showError('حدث خطأ في عملية الدفع. الرجاء المحاولة مرة أخرى.');
+                        backToForm();
+                    },
+                    onCancel: function(data) {
+                        showError('تم إلغاء عملية الدفع.');
+                        backToForm();
                     }
                 }).render('#fastlaneContainer');
+
+                // Clear loading message
+                fastlaneContainer.innerHTML = '';
 
             } catch (error) {
                 console.error('Error showing payment UI:', error);
