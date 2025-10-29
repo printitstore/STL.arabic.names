@@ -494,16 +494,19 @@
         // Show payment UI
         async function showPaymentUI(orderData) {
             try {
+                // Update order summary first
+                document.getElementById('summaryNameCount').textContent = orderData.numberOfNames;
+                document.getElementById('summaryTotal').textContent = `$${orderData.amount}`;
+
+                // Clear container completely
+                fastlaneContainer.innerHTML = '';
+                
                 // Hide form, show payment section
                 form.style.display = 'none';
                 paymentSection.style.display = 'block';
 
-                // Update order summary
-                document.getElementById('summaryNameCount').textContent = orderData.numberOfNames;
-                document.getElementById('summaryTotal').textContent = `$${orderData.amount}`;
-
-                // Clear and prepare container
-                fastlaneContainer.innerHTML = '';
+                // Wait for DOM to be ready
+                await new Promise(resolve => setTimeout(resolve, 100));
 
                 // Render PayPal buttons
                 window.paypal.Buttons({
@@ -567,7 +570,11 @@
                         showError('تم إلغاء عملية الدفع.');
                         backToForm();
                     }
-                }).render('#fastlaneContainer');
+                }).render('#fastlaneContainer').catch(function(err) {
+                    console.error('PayPal render error:', err);
+                    showError('فشل تحميل زر الدفع. الرجاء تحديث الصفحة والمحاولة مرة أخرى.');
+                    backToForm();
+                });
 
             } catch (error) {
                 console.error('Error showing payment UI:', error);
