@@ -284,13 +284,17 @@
                 return;
             }
 
+            // Display names and count them properly
+            const namesList = params.names ? decodeURIComponent(params.names) : '-';
+            
+            // Count names by splitting on Arabic comma, English comma, or spaces
+            const namesArray = namesList.split(/[\u060C,،\s]+/).filter(n => n.trim().length > 0);
+            const actualNameCount = namesArray.length;
+
             // Display order info
             document.getElementById('orderId').textContent = params.orderId;
-            document.getElementById('numberOfNames').textContent = params.numberOfNames;
+            document.getElementById('numberOfNames').textContent = actualNameCount;
             document.getElementById('totalAmount').textContent = `${params.currency} ${params.amount}`;
-            
-            // Display names
-            const namesList = params.names ? decodeURIComponent(params.names) : '-';
             document.getElementById('namesList').textContent = namesList;
 
             // Initialize PayPal button
@@ -306,6 +310,9 @@
                     '<p style="color: #B23A48; text-align: center;">خطأ في تحميل زر الدفع. الرجاء المحاولة مرة أخرى.</p>';
                 return;
             }
+
+            // Clear loading message
+            document.getElementById('paypal-button-container').innerHTML = '';
 
             // Render PayPal button
             paypal.Buttons({
