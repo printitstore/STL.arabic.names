@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الطلب - ميداليات مخصصة</title>
+    <style>
+        :root {
+            --bg-start: #2E2A29;
+            --bg-end: #4A4C5D;
+            --ring-soft: rgba(217, 209, 198, 0.15);
+
+            --card-bg: #F9F8F6;
+            --card-border: rgba(0,0,0,0.07);
+
+            --text-main: #2E2A29;
+            --text-dim: #6B6B6B;
+            --text-light: #8A8A8A;
+
+            --accent-start: #56766B;
+            --accent-end: #6F8F84;
+
+            --badge-bg-success: rgba(76, 175, 80, 0.08);
+            --badge-border-success: rgba(76, 175, 80, 0.4);
+            --badge-text-success: #2e7d32;
+
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 40% 30%, var(--ring-soft) 0%, rgba(0,0,0,0) 60%),
+                linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: var(--text-main);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 28px 90px rgba(0,0,0,0.6),
+                0 8px 32px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 28px 24px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(217,209,198,0.4) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .logo {
+            width: 140px;
+            height: auto;
+            display: block;
+            margin: 0 auto 12px;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+        }
+
+        .body {
+            padding: 32px 24px;
+        }
+
+        .order-summary {
+            margin-bottom: 28px;
+            padding: 20px;
+            background: var(--badge-bg-success);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--badge-border-success);
+        }
+
+        .order-summary h2 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--text-dim);
+        }
+
+        .summary-item strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .summary-item.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 2px solid var(--badge-border-success);
+            color: var(--text-main);
+        }
+
+        .names-list {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        #paypal-button-container {
+            margin: 24px 0;
+            min-height: 150px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        .spinner {
+            border: 3px solid rgba(0,0,0,0.1);
+            border-top-color: var(--accent-start);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link a:hover {
+            color: var(--accent-start);
+        }
+
+        .note {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.3rem; }
+            .body { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="header">
+            <img src="FINAL.svg" alt="الشعار" class="logo">
+            <h1>تأكيد الطلب ✨</h1>
+            <p>راجع طلبك وأكمل الدفع</p>
+        </div>
+
+        <div class="body">
+            <div class="order-summary">
+                <h2>ملخص الطلب</h2>
+                
+                <div class="summary-item">
+                    <span>رقم الطلب:</span>
+                    <strong id="orderId">-</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>عدد الأسماء:</span>
+                    <strong id="numberOfNames">0</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>الأسماء المطلوبة:</span>
+                </div>
+                <div class="names-list" id="namesList">-</div>
+
+                <div class="summary-item total">
+                    <span>المبلغ الإجمالي:</span>
+                    <span id="totalAmount">$0.00</span>
+                </div>
+            </div>
+
+            <div id="paypal-button-container">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>جاري تحميل طرق الدفع...</p>
+                </div>
+            </div>
+
+            <div class="note">
+                💡 بعد إتمام الدفع، سيتم إرسال الملفات الجاهزة للطباعة على بريدك الإلكتروني خلال 24 ساعة
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← العودة للصفحة الرئيسية</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AZU-bACdzXgcdZ0mvDw4oWVSdZCZETT7COcorhiOw_WI5w7ill5sVzOwp2VX5_qbXypdL568N9JomnWS&currency=USD"></script>
+
+    <script>
+    (function() {
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                orderId: params.get('orderId'),
+                paymentUrl: params.get('paymentUrl'),
+                amount: params.get('amount'),
+                currency: params.get('currency') || 'USD',
+                names: params.get('names'),
+                numberOfNames: params.get('numberOfNames')
+            };
+        }
+
+        // Extract PayPal order ID from payment URL
+        function extractPayPalOrderId(paymentUrl) {
+            try {
+                const url = new URL(decodeURIComponent(paymentUrl));
+                const token = url.searchParams.get('token');
+                return token;
+            } catch (e) {
+                console.error('Error extracting order ID:', e);
+                return null;
+            }
+        }
+
+        // Display order details
+        function displayOrderDetails() {
+            const params = getUrlParams();
+            
+            if (!params.orderId || !params.paymentUrl) {
+                alert('خطأ: بيانات الطلب غير مكتملة');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Display order info
+            document.getElementById('orderId').textContent = params.orderId;
+            document.getElementById('numberOfNames').textContent = params.numberOfNames;
+            document.getElementById('totalAmount').textContent = `${params.currency} ${params.amount}`;
+            
+            // Display names
+            const namesList = params.names ? decodeURIComponent(params.names) : '-';
+            document.getElementById('namesList').textContent = namesList;
+
+            // Initialize PayPal button
+            initPayPalButton(params);
+        }
+
+        // Initialize PayPal button
+        function initPayPalButton(params) {
+            const paypalOrderId = extractPayPalOrderId(params.paymentUrl);
+            
+            if (!paypalOrderId) {
+                document.getElementById('paypal-button-container').innerHTML = 
+                    '<p style="color: #B23A48; text-align: center;">خطأ في تحميل زر الدفع. الرجاء المحاولة مرة أخرى.</p>';
+                return;
+            }
+
+            // Render PayPal button
+            paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'paypal',
+                    height: 55
+                },
+                
+                // Use the existing order created by n8n
+                createOrder: function(data, actions) {
+                    return paypalOrderId;
+                },
+
+                onApprove: function(data, actions) {
+                    // Payment approved, redirect to success page
+                    window.location.href = 'success.html?orderId=' + params.orderId;
+                },
+
+                onError: function(err) {
+                    console.error('PayPal error:', err);
+                    alert('حدث خطأ في عملية الدفع. الرجاء المحاولة مرة أخرى.');
+                },
+
+                onCancel: function(data) {
+                    alert('تم إلغاء عملية الدفع.');
+                }
+
+            }).render('#paypal-button-container');
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', displayOrderDetails);
+    })();
+    </script>
+</body>
+</html>
