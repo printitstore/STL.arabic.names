@@ -260,59 +260,143 @@
 
         <div class="info-box">
             <h3>📧 مهم: افحص بريدك الآن</h3>
-            <p>
+            <p id="emailInfo">
                 أرسلنا لك تأكيد الدفع.
                 <br>
-                خلال <strong>24 ساعة</strong> توصلك ملفات الميداليات بصيغة جاهزة للطباعة.
+                خلال <strong>24 ساعة</strong> توصلك ملفاتك بصيغة جاهزة للطباعة.
                 <br>
                 لو ما شفت الرسالة، شيّك مجلد السبام / البريد غير الهام.
             </p>
         </div>
 
-        <div class="timeline">
-            <h3>⏱️ ماذا سيحدث الآن؟</h3>
-
-            <div class="timeline-item">
-                <span class="timeline-icon">✅</span>
-                <div class="timeline-text">
-                    <strong>1. الطلب مسجل</strong>
-                    <span>تم تأكيد الدفع وتسجيل معلوماتك</span>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <span class="timeline-icon">🎨</span>
-                <div class="timeline-text">
-                    <strong>2. شغل التصميم</strong>
-                    <span>نجهز كل الأسماء بخط عربي نظيف للطباعة</span>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <span class="timeline-icon">📥</span>
-                <div class="timeline-text">
-                    <strong>3. الإرسال</strong>
-                    <span>نرسل الملفات الجاهزة للقص/الطباعة على بريدك</span>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <span class="timeline-icon">🖨️</span>
-                <div class="timeline-text">
-                    <strong>4. جاهز للطباعة</strong>
-                    <span>تعطيها للمطبعة/الليزر وتطبعها مباشرة</span>
-                </div>
-            </div>
+        <div class="timeline" id="timeline">
+            <!-- Timeline content will be dynamically generated -->
         </div>
 
-        <a href="https://printitstore.github.io/STL.arabic.names/" class="btn-primary">
+        <a href="products.html" class="btn-primary">
             العودة للصفحة الرئيسية
         </a>
 
         <div class="footer">
-            <div>عندك تعديل على تهجئة اسم؟ بلغنا قبل ما نرسل النسخة النهائية.</div>
+            <div id="footerNote">عندك تعديل؟ بلغنا قبل ما نرسل النسخة النهائية.</div>
             <div class="brand">PrintIt Store 🤍</div>
         </div>
     </div>
+
+    <script>
+    (function() {
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                orderId: params.get('orderId'),
+                product: params.get('product') || 'keychains' // 'keychains' or 'loha'
+            };
+        }
+
+        // Keychains timeline
+        function renderKeychainsTimeline() {
+            return `
+                <h3>⏱️ ماذا سيحدث الآن؟</h3>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">✅</span>
+                    <div class="timeline-text">
+                        <strong>1. الطلب مسجل</strong>
+                        <span>تم تأكيد الدفع وتسجيل معلوماتك</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">🎨</span>
+                    <div class="timeline-text">
+                        <strong>2. شغل التصميم</strong>
+                        <span>نجهز كل الأسماء بخط عربي نظيف للطباعة</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">📥</span>
+                    <div class="timeline-text">
+                        <strong>3. الإرسال</strong>
+                        <span>نرسل الملفات الجاهزة للقص/الطباعة على بريدك</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">🖨️</span>
+                    <div class="timeline-text">
+                        <strong>4. جاهز للطباعة</strong>
+                        <span>تعطيها للمطبعة/الليزر وتطبعها مباشرة</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Loha timeline
+        function renderLohaTimeline() {
+            return `
+                <h3>⏱️ ماذا سيحدث الآن؟</h3>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">✅</span>
+                    <div class="timeline-text">
+                        <strong>1. الطلب مسجل</strong>
+                        <span>تم تأكيد الدفع وتسجيل معلومات اللوحات</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">🏷️</span>
+                    <div class="timeline-text">
+                        <strong>2. تجهيز اللوحات</strong>
+                        <span>نعالج الأرقام والحروف وننشئ النماذج ثلاثية الأبعاد</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">📥</span>
+                    <div class="timeline-text">
+                        <strong>3. الإرسال</strong>
+                        <span>نرسل ملفات STL الجاهزة للطباعة على بريدك</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-icon">🖨️</span>
+                    <div class="timeline-text">
+                        <strong>4. جاهز للطباعة</strong>
+                        <span>اطبعها مباشرة بطابعة ثلاثية الأبعاد</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize page content based on product type
+        function initializePage() {
+            const params = getUrlParams();
+            const timelineEl = document.getElementById('timeline');
+            
+            if (params.product === 'loha') {
+                // Loha product
+                document.getElementById('emailInfo').innerHTML = `
+                    أرسلنا لك تأكيد الدفع.
+                    <br>
+                    خلال <strong>24 ساعة</strong> توصلك ملفات اللوحات بصيغة STL جاهزة للطباعة ثلاثية الأبعاد.
+                    <br>
+                    لو ما شفت الرسالة، شيّك مجلد السبام / البريد غير الهام.
+                `;
+                timelineEl.innerHTML = renderLohaTimeline();
+                document.getElementById('footerNote').textContent = 'عندك تعديل على الأرقام أو الحروف؟ بلغنا قبل ما نرسل النسخة النهائية.';
+            } else {
+                // Keychains product (default)
+                timelineEl.innerHTML = renderKeychainsTimeline();
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initializePage);
+    })();
+    </script>
 </body>
 </html>
