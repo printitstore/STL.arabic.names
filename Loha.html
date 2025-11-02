@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب لوحات لوحة مخصصة</title>
+    <style>
+        :root {
+            --bg-start: #2E2A29;
+            --bg-end: #4A4C5D;
+            --ring-soft: rgba(217, 209, 198, 0.15);
+
+            --card-bg: #F9F8F6;
+            --card-border: rgba(0,0,0,0.07);
+
+            --text-main: #2E2A29;
+            --text-dim: #6B6B6B;
+            --text-light: #8A8A8A;
+
+            --accent-start: #56766B;
+            --accent-end: #6F8F84;
+
+            --badge-bg-success: rgba(76, 175, 80, 0.08);
+            --badge-border-success: rgba(76, 175, 80, 0.4);
+            --badge-text-success: #2e7d32;
+
+            --badge-bg-error: rgba(178, 58, 72, 0.08);
+            --badge-border-error: rgba(178, 58, 72, 0.4);
+            --badge-text-error: #B23A48;
+
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 40% 30%, var(--ring-soft) 0%, rgba(0,0,0,0) 60%),
+                linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: var(--text-main);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 28px 90px rgba(0,0,0,0.6),
+                0 8px 32px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .form-header {
+            padding: 28px 24px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(217,209,198,0.4) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .brand-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 140px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+        }
+
+        .form-header h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .form-header p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .form-body {
+            padding: 24px;
+        }
+
+        .message {
+            display: none;
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: var(--badge-bg-success);
+            border: 1px solid var(--badge-border-success);
+            color: var(--badge-text-success);
+        }
+
+        .error-message {
+            background: var(--badge-bg-error);
+            border: 1px solid var(--badge-border-error);
+            color: var(--badge-text-error);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #B23A48;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            background: #FFFFFF;
+            color: var(--text-main);
+            border: 1px solid rgba(0,0,0,0.18);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            font-size: 1rem;
+            font-family: inherit;
+            line-height: 1.5;
+            outline: none;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 0 0 rgba(0,0,0,0);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-light);
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--accent-start);
+            box-shadow: 0 0 0 3px rgba(86,118,107,0.18);
+        }
+
+        .help-text {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* Plate Cards */
+        .plates-container {
+            margin-bottom: 20px;
+        }
+
+        .plate-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(0,0,0,0.12);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .plate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .plate-number {
+            font-weight: 600;
+            color: var(--accent-start);
+            font-size: 0.95rem;
+        }
+
+        .remove-plate-btn {
+            background: var(--badge-bg-error);
+            border: 1px solid var(--badge-border-error);
+            color: var(--badge-text-error);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .remove-plate-btn:hover {
+            background: rgba(178, 58, 72, 0.15);
+        }
+
+        .plate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .letters-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .letters-row input {
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 12px 8px;
+        }
+
+        .add-plate-btn {
+            width: 100%;
+            background: rgba(86,118,107,0.08);
+            border: 2px dashed rgba(86,118,107,0.3);
+            color: var(--accent-start);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .add-plate-btn:hover {
+            background: rgba(86,118,107,0.12);
+            border-color: rgba(86,118,107,0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+            color: #F9F8F6;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 0;
+            border-radius: var(--radius-md);
+            padding: 15px 18px;
+            cursor: pointer;
+            line-height: 1.4;
+            outline: none;
+            position: relative;
+            box-shadow:
+                0 20px 40px rgba(0,0,0,0.4),
+                0 4px 16px rgba(86,118,107,0.4);
+            transition: all 0.16s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-btn span.spinner {
+            display: none;
+            border: 2px solid rgba(249,248,246,0.3);
+            border-top-color: #F9F8F6;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .submit-btn[aria-busy="true"] {
+            opacity: 0.75;
+            cursor: progress;
+        }
+
+        .submit-btn[aria-busy="true"] span.spinner {
+            display: inline-block;
+        }
+
+        .submit-btn:hover:not([disabled]):not([aria-busy="true"]) {
+            filter: brightness(1.05);
+            box-shadow:
+                0 28px 60px rgba(0,0,0,0.6),
+                0 8px 24px rgba(86,118,107,0.45);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .footer-hint {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            line-height: 1.6;
+            margin-top: 24px;
+        }
+
+        .footer-hint strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .form-header h1 { font-size: 1.2rem; }
+            .form-header p { font-size: 0.8rem; }
+            .form-body { padding: 20px; }
+            .plate-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <main class="form-container" role="main" aria-labelledby="formTitle">
+        <div class="form-header">
+            <div class="brand-row">
+                <img src="FINAL.svg" alt="الشعار" class="logo">
+                <h1 id="formTitle">طلب لوحات لوحة مخصصة 🏷️</h1>
+                <p>اختر النوع – أدخل الأرقام والحروف – نجهز ملفاتك خلال أقل من 24 ساعة</p>
+            </div>
+        </div>
+
+        <div class="form-body">
+            <!-- status messages -->
+            <div id="successMessage" class="message success-message" role="status" aria-live="polite"></div>
+            <div id="errorMessage" class="message error-message" role="alert" aria-live="assertive"></div>
+
+            <form id="orderForm" novalidate>
+                <!-- Customer Info -->
+                <div class="form-group">
+                    <label for="customerName">
+                        <span>الاسم الكامل</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        required
+                        placeholder="أدخل اسمك الكامل"
+                        autocomplete="name"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        <span>البريد الإلكتروني</span>
+                        <span class="required">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        placeholder="example@email.com"
+                        autocomplete="email"
+                    />
+                    <div class="help-text">راح نرسل عليك الملفات النهائية بصيغة جاهزة للطباعة</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">
+                        <span>رقم الجوال</span>
+                        <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">(اختياري)</span>
+                    </label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="+966 5xxxxxxxx"
+                        inputmode="tel"
+                    />
+                </div>
+
+                <!-- Plates Section -->
+                <div class="form-group">
+                    <label>
+                        <span>اللوحات المطلوبة</span>
+                        <span class="required">*</span>
+                    </label>
+                    <div class="help-text" style="margin-bottom: 12px;">
+                        أضف كل لوحة مع تحديد النوع والرقم والحروف
+                    </div>
+                </div>
+
+                <div class="plates-container" id="platesContainer">
+                    <!-- Plate cards will be added here by JS -->
+                </div>
+
+                <button type="button" class="add-plate-btn" id="addPlateBtn">
+                    ➕ إضافة لوحة جديدة
+                </button>
+
+                <button type="submit" class="submit-btn" id="submitBtn" aria-busy="false">
+                    <span class="label">متابعة للدفع 💳</span>
+                    <span class="spinner" aria-hidden="true"></span>
+                </button>
+
+                <div class="footer-hint">
+                    بالدفع أنت توافق أنه يتم تجهيز لوحاتك بشكل خاص لك،
+                    وهذا <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+    (function () {
+        const form = document.getElementById('orderForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const platesContainer = document.getElementById('platesContainer');
+        const addPlateBtn = document.getElementById('addPlateBtn');
+
+        // TODO: Update with your actual n8n webhook URL for Loha
+        const WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/loha-order';
+
+        let plateCounter = 0;
+
+        function createPlateCard() {
+            plateCounter++;
+            const plateId = `plate-${plateCounter}`;
+            
+            const card = document.createElement('div');
+            card.className = 'plate-card';
+            card.dataset.plateId = plateId;
+            
+            card.innerHTML = `
+                <div class="plate-header">
+                    <span class="plate-number">لوحة ${plateCounter}</span>
+                    ${plateCounter > 1 ? '<button type="button" class="remove-plate-btn">حذف</button>' : ''}
+                </div>
+                
+                <div class="plate-grid">
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px;">نوع اللوحة</label>
+                        <select class="plate-type" required>
+                            <option value="">اختر النوع</option>
+                            <option value="type1">طويلة (Type 1)</option>
+                            <option value="type2">مربعة (Type 2)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 6px;">الرقم (4 أرقام)</label>
+                        <input 
+                            type="text" 
+                            class="plate-number-input" 
+                            placeholder="1234" 
+                            maxlength="4"
+                            pattern="[0-9]{4}"
+                            required
+                        />
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="font-size: 0.85rem; margin-bottom: 6px;">الحروف العربية (3 حروف)</label>
+                    <div class="letters-row">
+                        <input type="text" class="letter-input" placeholder="ا" maxlength="1" required />
+                        <input type="text" class="letter-input" placeholder="ب" maxlength="1" required />
+                        <input type="text" class="letter-input" placeholder="ج" maxlength="1" required />
+                    </div>
+                </div>
+            `;
+            
+            // Add remove functionality
+            const removeBtn = card.querySelector('.remove-plate-btn');
+            if (removeBtn) {
+                removeBtn.addEventListener('click', () => {
+                    card.remove();
+                    renumberPlates();
+                });
+            }
+            
+            platesContainer.appendChild(card);
+        }
+
+        function renumberPlates() {
+            const cards = platesContainer.querySelectorAll('.plate-card');
+            cards.forEach((card, index) => {
+                const numberSpan = card.querySelector('.plate-number');
+                if (numberSpan) {
+                    numberSpan.textContent = `لوحة ${index + 1}`;
+                }
+            });
+        }
+
+        function getPlatesData() {
+            const cards = platesContainer.querySelectorAll('.plate-card');
+            const plates = [];
+            
+            cards.forEach(card => {
+                const type = card.querySelector('.plate-type').value;
+                const number = card.querySelector('.plate-number-input').value.trim();
+                const letters = Array.from(card.querySelectorAll('.letter-input'))
+                    .map(input => input.value.trim());
+                
+                if (type && number && letters.every(l => l)) {
+                    plates.push({ type, number, letters });
+                }
+            });
+            
+            return plates;
+        }
+
+        function formatPlatesForBackend(plates) {
+            // Format: (type1, 1222, ت, ت, ن),(type2, 1473, ت, ق, ض)
+            return plates.map(p => 
+                `(${p.type}, ${p.number}, ${p.letters.join(', ')})`
+            ).join(',');
+        }
+
+        function setBusy(busy) {
+            submitBtn.disabled = busy;
+            submitBtn.setAttribute('aria-busy', String(busy));
+            submitBtn.querySelector('.label').textContent = busy
+                ? 'جاري الإرسال...'
+                : 'متابعة للدفع 💳';
+        }
+
+        function showSuccess(text) {
+            if (!text) { successMessage.style.display = 'none'; return; }
+            successMessage.textContent = text;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        function showError(text) {
+            if (!text) { errorMessage.style.display = 'none'; return; }
+            errorMessage.textContent = text;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        // Add first plate on load
+        createPlateCard();
+
+        // Add plate button
+        addPlateBtn.addEventListener('click', () => {
+            createPlateCard();
+        });
+
+        // Form submission
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            setBusy(true);
+            showSuccess('');
+            showError('');
+
+            const customerName = document.getElementById('customerName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            // Validation
+            if (!customerName || !email) {
+                showError('الرجاء ملء الاسم والبريد.');
+                setBusy(false);
+                return;
+            }
+
+            const plates = getPlatesData();
+            if (!plates.length) {
+                showError('الرجاء إضافة لوحة واحدة على الأقل مع جميع البيانات.');
+                setBusy(false);
+                return;
+            }
+
+            // Format plates for backend
+            const platesFormatted = formatPlatesForBackend(plates);
+
+            // Payload for n8n
+            const payload = {
+                customerName,
+                email,
+                phone,
+                plates: platesFormatted,  // String format: (type1, 1222, ت, ت, ن),(type2, ...)
+                platesArray: plates,       // Array format for easier processing
+                numberOfPlates: plates.length,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const resp = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                let result = null;
+                try {
+                    result = await resp.json();
+                } catch (err) {
+                    // Backend didn't send valid JSON
+                }
+
+                if (!resp.ok) {
+                    const msg = (result && result.message)
+                        ? result.message
+                        : 'فشل إرسال الطلب. جرّب بعد شوي.';
+                    throw new Error(msg);
+                }
+
+                // Redirect to confirmation page with payment URL
+                if (result && result.paymentUrl) {
+                    showSuccess('✅ تم إرسال طلبك! جاري تحويلك لصفحة التأكيد...');
+                    
+                    const platesText = plates.map(p => `${p.type}: ${p.number} - ${p.letters.join('')}`).join('، ');
+                    
+                    const confirmUrl = `confirmation.html?orderId=${result.orderId}&paymentUrl=${encodeURIComponent(result.paymentUrl)}&amount=${result.amount}&currency=${result.currency}&product=loha&numberOfPlates=${plates.length}&plates=${encodeURIComponent(platesText)}`;
+                    
+                    window.location.href = confirmUrl;
+                    return;
+                }
+                
+                // Fallback
+                showSuccess('✅ تم إرسال الطلب بنجاح.');
+                form.reset();
+                platesContainer.innerHTML = '';
+                plateCounter = 0;
+                createPlateCard();
+
+            } catch (err) {
+                console.error(err);
+                showError(err.message || 'حدث خطأ أثناء الإرسال.');
+            } finally {
+                setBusy(false);
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
