@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تأكيد الطلب - ميداليات مخصصة</title>
+    <title>تأكيد الطلب</title>
     <style>
         :root {
             --bg-start: #2E2A29;
@@ -124,7 +124,7 @@
             color: var(--text-main);
         }
 
-        .names-list {
+        .details-box {
             background: white;
             padding: 12px;
             border-radius: 8px;
@@ -212,14 +212,14 @@
                 </div>
 
                 <div class="summary-item">
-                    <span>عدد الأسماء:</span>
-                    <strong id="numberOfNames">0</strong>
+                    <span id="quantityLabel">عدد القطع:</span>
+                    <strong id="quantity">0</strong>
                 </div>
 
                 <div class="summary-item">
-                    <span>الأسماء المطلوبة:</span>
+                    <span id="detailsLabel">التفاصيل:</span>
                 </div>
-                <div class="names-list" id="namesList">-</div>
+                <div class="details-box" id="detailsBox">-</div>
 
                 <div class="summary-item total">
                     <span>المبلغ الإجمالي:</span>
@@ -239,7 +239,7 @@
             </div>
 
             <div class="back-link">
-                <a href="index.html">← العودة للصفحة الرئيسية</a>
+                <a href="products.html">← العودة للصفحة الرئيسية</a>
             </div>
         </div>
     </main>
@@ -257,8 +257,15 @@
                 paymentUrl: params.get('paymentUrl'),
                 amount: params.get('amount'),
                 currency: params.get('currency') || 'USD',
+                product: params.get('product') || 'keychains', // 'keychains' or 'loha'
+                
+                // Keychains specific
                 names: params.get('names'),
-                numberOfNames: params.get('numberOfNames')
+                numberOfNames: params.get('numberOfNames'),
+                
+                // Loha specific
+                plates: params.get('plates'),
+                numberOfPlates: params.get('numberOfPlates')
             };
         }
 
@@ -274,31 +281,54 @@
             }
         }
 
-        // Display order details
+        // Display order details based on product type
         function displayOrderDetails() {
             const params = getUrlParams();
             
             if (!params.orderId || !params.paymentUrl) {
                 alert('خطأ: بيانات الطلب غير مكتملة');
-                window.location.href = 'index.html';
+                window.location.href = 'products.html';
                 return;
             }
 
-            // Display names and count them properly
-            const namesList = params.names ? decodeURIComponent(params.names) : '-';
-            
-            // Count names by splitting on Arabic comma, English comma, or spaces
-            const namesArray = namesList.split(/[\u060C,،\s]+/).filter(n => n.trim().length > 0);
-            const actualNameCount = namesArray.length;
-
-            // Display order info
+            // Display order ID and amount
             document.getElementById('orderId').textContent = params.orderId;
-            document.getElementById('numberOfNames').textContent = actualNameCount;
             document.getElementById('totalAmount').textContent = `${params.currency} ${params.amount}`;
-            document.getElementById('namesList').textContent = namesList;
+
+            // Display product-specific details
+            if (params.product === 'loha') {
+                displayLohaDetails(params);
+            } else {
+                displayKeychainDetails(params);
+            }
 
             // Initialize PayPal button
             initPayPalButton(params);
+        }
+
+        // Display keychain order details
+        function displayKeychainDetails(params) {
+            document.getElementById('quantityLabel').textContent = 'عدد الأسماء:';
+            document.getElementById('detailsLabel').textContent = 'الأسماء المطلوبة:';
+            
+            const namesList = params.names ? decodeURIComponent(params.names) : '-';
+            const namesArray = namesList.split(/[\u060C,،\s]+/).filter(n => n.trim().length > 0);
+            const actualNameCount = namesArray.length;
+
+            document.getElementById('quantity').textContent = actualNameCount;
+            document.getElementById('detailsBox').textContent = namesList;
+        }
+
+        // Display loha order details
+        function displayLohaDetails(params) {
+            document.getElementById('quantityLabel').textContent = 'عدد اللوحات:';
+            document.getElementById('detailsLabel').textContent = 'تفاصيل اللوحات:';
+            
+            const platesText = params.plates ? decodeURIComponent(params.plates) : '-';
+            const numberOfPlates = params.numberOfPlates || '0';
+
+            document.getElementById('quantity').textContent = numberOfPlates;
+            document.getElementById('detailsBox').innerHTML = platesText.replace(/،/g, '<br>');
         }
 
         // Initialize PayPal button
@@ -331,7 +361,8 @@
 
                 onApprove: function(data, actions) {
                     // Payment approved, redirect to success page
-                    window.location.href = 'success.html?orderId=' + params.orderId;
+                    const successUrl = 'success.html?orderId=' + params.orderId + '&product=' + params.product;
+                    window.location.href = successUrl;
                 },
 
                 onError: function(err) {
@@ -340,7 +371,7 @@
                 },
 
                 onCancel: function(data) {
-                    alert('تم إلغاء عملية الدفع.');
+                    window.location.href = 'cancel.html';
                 }
 
             }).render('#paypal-button-container');
