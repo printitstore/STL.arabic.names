@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منتجاتنا المخصصة</title>
+    <style>
+        :root {
+            --bg-start: #2E2A29;
+            --bg-end: #4A4C5D;
+            --ring-soft: rgba(217, 209, 198, 0.15);
+
+            --card-bg: #F9F8F6;
+            --card-border: rgba(0,0,0,0.07);
+
+            --text-main: #2E2A29;
+            --text-dim: #6B6B6B;
+            --text-light: #8A8A8A;
+
+            --accent-start: #56766B;
+            --accent-end: #6F8F84;
+
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 40% 30%, var(--ring-soft) 0%, rgba(0,0,0,0) 60%),
+                linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            padding: 40px 24px;
+            color: var(--text-main);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .logo {
+            width: 160px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #F9F8F6;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(249,248,246,0.8);
+            line-height: 1.6;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.5),
+                0 4px 24px rgba(0,0,0,0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow:
+                0 32px 80px rgba(0,0,0,0.6),
+                0 8px 32px rgba(86,118,107,0.4);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, rgba(86,118,107,0.1) 0%, rgba(111,143,132,0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .product-content {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .product-features li {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            padding: 6px 0;
+            padding-right: 20px;
+            position: relative;
+        }
+
+        .product-features li:before {
+            content: "✓";
+            position: absolute;
+            right: 0;
+            color: var(--accent-start);
+            font-weight: bold;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-start);
+            margin-bottom: 16px;
+        }
+
+        .order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+            color: #F9F8F6;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 0;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 16px rgba(86,118,107,0.3);
+        }
+
+        .order-btn:hover {
+            filter: brightness(1.08);
+            box-shadow: 0 6px 24px rgba(86,118,107,0.4);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(86,118,107,0.15);
+            color: var(--accent-start);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .coming-soon .order-btn {
+            background: linear-gradient(135deg, #999 0%, #777 100%);
+        }
+
+        .coming-soon-badge {
+            background: rgba(107,107,107,0.15);
+            color: var(--text-dim);
+        }
+
+        footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: rgba(249,248,246,0.6);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: rgba(249,248,246,0.8);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(249,248,246,0.3);
+        }
+
+        footer a:hover {
+            color: #F9F8F6;
+            border-bottom-color: #F9F8F6;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6rem; }
+            .header p { font-size: 0.95rem; }
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="FINAL.svg" alt="الشعار" class="logo">
+            <h1>منتجاتنا المخصصة ✨</h1>
+            <p>اختر المنتج المناسب لك – نصممه خصيصاً حسب طلبك</p>
+        </header>
+
+        <div class="products-grid">
+            <!-- Product 1: Arabic Name Keychains -->
+            <a href="index.html" class="product-card">
+                <div class="product-image">🔑</div>
+                <div class="product-content">
+                    <span class="badge">متوفر الآن</span>
+                    <h2 class="product-title">ميداليات الأسماء العربية</h2>
+                    <p class="product-description">
+                        ميداليات مخصصة مع أسماء عربية جميلة بخطوط احترافية – مثالية للهدايا والاستخدام الشخصي
+                    </p>
+                    <ul class="product-features">
+                        <li>خطوط عربية احترافية</li>
+                        <li>جاهزة للطباعة ثلاثية الأبعاد</li>
+                        <li>تسليم خلال 24 ساعة</li>
+                        <li>ملفات STL عالية الجودة</li>
+                    </ul>
+                    <div class="product-price">ابدأ من 15 ريال</div>
+                    <div class="order-btn">اطلب الآن 🎨</div>
+                </div>
+            </a>
+
+            <!-- Product 2: Loha Plates -->
+            <a href="loha.html" class="product-card">
+                <div class="product-image">🏷️</div>
+                <div class="product-content">
+                    <span class="badge">متوفر الآن</span>
+                    <h2 class="product-title">لوحات اللوحة المخصصة</h2>
+                    <p class="product-description">
+                        لوحات لوحة احترافية بنوعين (طويلة ومربعة) مع أرقام وحروف عربية – مثالية للسيارات والممتلكات
+                    </p>
+                    <ul class="product-features">
+                        <li>نوعين: طويلة ومربعة</li>
+                        <li>أرقام إنجليزية وعربية</li>
+                        <li>حروف عربية مخصصة</li>
+                        <li>جاهزة للطباعة ثلاثية الأبعاد</li>
+                    </ul>
+                    <div class="product-price">ابدأ من 20 ريال</div>
+                    <div class="order-btn">اطلب الآن 🚗</div>
+                </div>
+            </a>
+
+            <!-- Product 3: Coming Soon -->
+            <div class="product-card coming-soon">
+                <div class="product-image">🎁</div>
+                <div class="product-content">
+                    <span class="badge coming-soon-badge">قريباً</span>
+                    <h2 class="product-title">منتج جديد قريباً</h2>
+                    <p class="product-description">
+                        نعمل على إضافة منتجات جديدة ومميزة قريباً. تابعونا للمزيد من الإبداع!
+                    </p>
+                    <ul class="product-features">
+                        <li>قريباً...</li>
+                        <li>قريباً...</li>
+                        <li>قريباً...</li>
+                    </ul>
+                    <div class="product-price">قريباً</div>
+                    <div class="order-btn">قريباً</div>
+                </div>
+            </div>
+
+            <!-- Product 4: Coming Soon -->
+            <div class="product-card coming-soon">
+                <div class="product-image">✨</div>
+                <div class="product-content">
+                    <span class="badge coming-soon-badge">قريباً</span>
+                    <h2 class="product-title">منتج جديد قريباً</h2>
+                    <p class="product-description">
+                        نعمل على إضافة منتجات جديدة ومميزة قريباً. تابعونا للمزيد من الإبداع!
+                    </p>
+                    <ul class="product-features">
+                        <li>قريباً...</li>
+                        <li>قريباً...</li>
+                        <li>قريباً...</li>
+                    </ul>
+                    <div class="product-price">قريباً</div>
+                    <div class="order-btn">قريباً</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                جميع الحقوق محفوظة © 2025
+                <br>
+                تصميم وبرمجة بواسطة فريق Print It Store
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
