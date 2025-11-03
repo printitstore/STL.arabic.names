@@ -3,328 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منتجاتنا المخصصة</title>
+    <meta name="description" content="PrintIt - استكشف خدماتنا: اطبعها بنفسك، منتجات مطبوعة جاهزة، الطباعة حسب الطلب">
+    <title>خدماتنا - PrintIt</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        :root {
-            --bg-start: #2E2A29;
-            --bg-end: #4A4C5D;
-            --ring-soft: rgba(217, 209, 198, 0.15);
-
-            --card-bg: #F9F8F6;
-            --card-border: rgba(0,0,0,0.07);
-
-            --text-main: #2E2A29;
-            --text-dim: #6B6B6B;
-            --text-light: #8A8A8A;
-
-            --accent-start: #56766B;
-            --accent-end: #6F8F84;
-
-            --radius-lg: 20px;
-            --radius-md: 12px;
+        .categories-hero {
+            padding: 4rem 2rem 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #4A4C5D 100%);
+            color: white;
+            text-align: center;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background:
-                radial-gradient(circle at 40% 30%, var(--ring-soft) 0%, rgba(0,0,0,0) 60%),
-                linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
-            min-height: 100vh;
-            padding: 40px 24px;
-            color: var(--text-main);
+        .categories-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
-        .container {
+        .categories-hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories-section {
+            padding: 4rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .logo {
-            width: 160px;
-            height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #F9F8F6;
-            margin-bottom: 12px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            color: rgba(249,248,246,0.8);
-            line-height: 1.6;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
-            margin-bottom: 40px;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--card-border);
-            box-shadow:
-                0 20px 60px rgba(0,0,0,0.5),
-                0 4px 24px rgba(0,0,0,0.3);
+        .category-card {
+            background: white;
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s;
             display: flex;
             flex-direction: column;
         }
 
-        .product-card:hover {
+        .category-card:hover {
             transform: translateY(-8px);
-            box-shadow:
-                0 32px 80px rgba(0,0,0,0.6),
-                0 8px 32px rgba(86,118,107,0.4);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
 
-        .product-image {
-            width: 100%;
-            height: 220px;
-            background: linear-gradient(135deg, rgba(86,118,107,0.1) 0%, rgba(111,143,132,0.1) 100%);
+        .category-icon {
+            height: 180px;
+            background: linear-gradient(135deg, rgba(86,118,107,0.1), rgba(111,143,132,0.15));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 5rem;
+            padding: 2rem;
         }
 
-        .product-content {
-            padding: 24px;
+        .category-content {
+            padding: 2rem;
             flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .product-title {
-            font-size: 1.3rem;
+        .category-badge {
+            display: inline-block;
+            background: rgba(86,118,107,0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
+            width: fit-content;
         }
 
-        .product-description {
-            font-size: 0.95rem;
-            color: var(--text-dim);
-            line-height: 1.6;
-            margin-bottom: 16px;
+        .category-content h2 {
+            font-size: 1.75rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .category-content p {
+            color: var(--text-medium);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
             flex: 1;
         }
 
-        .product-features {
+        .category-features {
             list-style: none;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 12px;
         }
 
-        .product-features li {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            padding: 6px 0;
-            padding-right: 20px;
-            position: relative;
+        .category-features li {
+            padding: 0.5rem 0;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .product-features li:before {
+        .category-features li::before {
             content: "✓";
-            position: absolute;
-            right: 0;
-            color: var(--accent-start);
+            color: var(--primary);
             font-weight: bold;
-        }
-
-        .product-price {
             font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-start);
-            margin-bottom: 16px;
         }
 
-        .order-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
-            color: #F9F8F6;
+        .category-subcategories {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subcategory-link {
+            padding: 0.875rem 1.25rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .subcategory-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-4px);
+        }
+
+        .subcategory-price {
+            font-size: 0.875rem;
+            color: var(--primary);
             font-weight: 600;
-            font-size: 1rem;
-            border: 0;
-            border-radius: var(--radius-md);
-            padding: 14px 18px;
-            cursor: pointer;
+        }
+
+        .subcategory-link:hover .subcategory-price {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .category-cta {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
             text-align: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 16px rgba(86,118,107,0.3);
+            transition: all 0.3s;
+            display: block;
         }
 
-        .order-btn:hover {
-            filter: brightness(1.08);
-            box-shadow: 0 6px 24px rgba(86,118,107,0.4);
+        .category-cta:hover {
+            background: var(--primary-dark);
             transform: translateY(-2px);
         }
 
-        .badge {
-            display: inline-block;
-            background: rgba(86,118,107,0.15);
-            color: var(--accent-start);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 12px;
+        .coming-soon-overlay {
+            position: relative;
         }
 
-        .coming-soon {
-            opacity: 0.6;
+        .coming-soon-overlay::after {
+            content: 'قريباً';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(107,107,107,0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .coming-soon-card {
+            opacity: 0.7;
+        }
+
+        .coming-soon-card .category-cta {
+            background: #999;
             pointer-events: none;
         }
 
-        .coming-soon .order-btn {
-            background: linear-gradient(135deg, #999 0%, #777 100%);
-        }
-
-        .coming-soon-badge {
-            background: rgba(107,107,107,0.15);
-            color: var(--text-dim);
-        }
-
-        footer {
-            text-align: center;
-            padding: 32px 24px;
-            color: rgba(249,248,246,0.6);
-            font-size: 0.85rem;
-        }
-
-        footer a {
-            color: rgba(249,248,246,0.8);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(249,248,246,0.3);
-        }
-
-        footer a:hover {
-            color: #F9F8F6;
-            border-bottom-color: #F9F8F6;
-        }
-
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.6rem; }
-            .header p { font-size: 0.95rem; }
-            .products-grid {
+            .categories-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
+            }
+
+            .categories-hero h1 {
+                font-size: 2rem;
+            }
+
+            .category-icon {
+                height: 150px;
+                font-size: 4rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <img src="FINAL.svg" alt="الشعار" class="logo">
-            <h1>منتجاتنا المخصصة ✨</h1>
-            <p>اختر المنتج المناسب لك – نصممه خصيصاً حسب طلبك</p>
-        </header>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="FINAL.svg" alt="PrintIt Logo" class="logo">
+                <a href="index.html" class="brand-name">PrintIt</a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="products.html">الخدمات</a></li>
+                <li><a href="index.html#why">لماذا PrintIt</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
 
-        <div class="products-grid">
-            <!-- Product 1: Arabic Name Keychains -->
-            <a href="index.html" class="product-card">
-                <div class="product-image">🔑</div>
-                <div class="product-content">
-                    <span class="badge">متوفر الآن</span>
-                    <h2 class="product-title">ميداليات الأسماء العربية</h2>
-                    <p class="product-description">
-                        ميداليات مخصصة مع أسماء عربية جميلة بخطوط احترافية – مثالية للهدايا والاستخدام الشخصي
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="categories-hero">
+        <div class="container">
+            <h1>خدماتنا</h1>
+            <p>اختر الخدمة المناسبة لاحتياجاتك - من ملفات STL الرقمية إلى المنتجات الجاهزة</p>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="categories-grid">
+            
+            <!-- Category 1: Print Yourself (STL Files) -->
+            <div class="category-card">
+                <div class="category-icon">🎨</div>
+                <div class="category-content">
+                    <span class="category-badge">الأكثر طلباً</span>
+                    <h2>اطبعها بنفسك</h2>
+                    <p>
+                        احصل على ملفات STL جاهزة للطباعة ثلاثية الأبعاد. 
+                        نصمم لك الملف، وأنت تطبعه في أي مكان تريد.
                     </p>
-                    <ul class="product-features">
-                        <li>خطوط عربية احترافية</li>
-                        <li>جاهزة للطباعة ثلاثية الأبعاد</li>
-                        <li>تسليم خلال 24 ساعة</li>
+
+                    <div class="category-features">
                         <li>ملفات STL عالية الجودة</li>
-                    </ul>
-                    <div class="product-price">ابدأ من 15 ريال</div>
-                    <div class="order-btn">اطلب الآن 🎨</div>
-                </div>
-            </a>
+                        <li>تسليم خلال 24 ساعة</li>
+                        <li>اطبع بدون حدود</li>
+                        <li>وفّر حتى 70% من التكلفة</li>
+                    </div>
 
-            <!-- Product 2: Loha Plates -->
-            <a href="loha.html" class="product-card">
-                <div class="product-image">🏷️</div>
-                <div class="product-content">
-                    <span class="badge">متوفر الآن</span>
-                    <h2 class="product-title">لوحات اللوحة المخصصة</h2>
-                    <p class="product-description">
-                        لوحات لوحة احترافية بنوعين (طويلة ومربعة) مع أرقام وحروف عربية – مثالية للسيارات والممتلكات
-                    </p>
-                    <ul class="product-features">
-                        <li>نوعين: طويلة ومربعة</li>
-                        <li>أرقام إنجليزية وعربية</li>
-                        <li>حروف عربية مخصصة</li>
-                        <li>جاهزة للطباعة ثلاثية الأبعاد</li>
-                    </ul>
-                    <div class="product-price">ابدأ من 20 ريال</div>
-                    <div class="order-btn">اطلب الآن 🚗</div>
-                </div>
-            </a>
-
-            <!-- Product 3: Coming Soon -->
-            <div class="product-card coming-soon">
-                <div class="product-image">🎁</div>
-                <div class="product-content">
-                    <span class="badge coming-soon-badge">قريباً</span>
-                    <h2 class="product-title">منتج جديد قريباً</h2>
-                    <p class="product-description">
-                        نعمل على إضافة منتجات جديدة ومميزة قريباً. تابعونا للمزيد من الإبداع!
-                    </p>
-                    <ul class="product-features">
-                        <li>قريباً...</li>
-                        <li>قريباً...</li>
-                        <li>قريباً...</li>
-                    </ul>
-                    <div class="product-price">قريباً</div>
-                    <div class="order-btn">قريباً</div>
+                    <div class="category-subcategories">
+                        <a href="arabic-names.html" class="subcategory-link">
+                            <span>🔑 ميداليات الأسماء العربية</span>
+                            <span class="subcategory-price">من 20 ريال</span>
+                        </a>
+                        <a href="loha.html" class="subcategory-link">
+                            <span>🏷️ لوحات اللوحة المخصصة</span>
+                            <span class="subcategory-price">من 25 ريال</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Product 4: Coming Soon -->
-            <div class="product-card coming-soon">
-                <div class="product-image">✨</div>
-                <div class="product-content">
-                    <span class="badge coming-soon-badge">قريباً</span>
-                    <h2 class="product-title">منتج جديد قريباً</h2>
-                    <p class="product-description">
-                        نعمل على إضافة منتجات جديدة ومميزة قريباً. تابعونا للمزيد من الإبداع!
+            <!-- Category 2: Printed Products (Ready Stock) -->
+            <div class="category-card">
+                <div class="category-icon">📦</div>
+                <div class="category-content">
+                    <span class="category-badge">متوفر الآن</span>
+                    <h2>منتجات مطبوعة</h2>
+                    <p>
+                        منتجات ثلاثية الأبعاد جاهزة في المخزون. 
+                        اطلب الآن واستلمها خلال أيام.
                     </p>
-                    <ul class="product-features">
-                        <li>قريباً...</li>
-                        <li>قريباً...</li>
-                        <li>قريباً...</li>
-                    </ul>
-                    <div class="product-price">قريباً</div>
-                    <div class="order-btn">قريباً</div>
+
+                    <div class="category-features">
+                        <li>منتجات جاهزة للشحن</li>
+                        <li>جودة طباعة عالية</li>
+                        <li>شحن سريع لكل المملكة</li>
+                        <li>ضمان على الجودة</li>
+                    </div>
+
+                    <a href="printed-products.html" class="category-cta">
+                        تصفح المنتجات →
+                    </a>
                 </div>
+            </div>
+
+            <!-- Category 3: Print on Demand -->
+            <div class="category-card coming-soon-card">
+                <div class="category-icon coming-soon-overlay">🖨️</div>
+                <div class="category-content">
+                    <span class="category-badge" style="background:rgba(107,107,107,0.15);color:var(--text-medium)">قريباً</span>
+                    <h2>الطباعة حسب الطلب</h2>
+                    <p>
+                        نطبع لك أي ملف STL تملكه. 
+                        أرسل الملف، ونحن نطبعه ونوصله لك.
+                    </p>
+
+                    <div class="category-features">
+                        <li>اطبع أي ملف STL</li>
+                        <li>خيارات متعددة من المواد</li>
+                        <li>أحجام مختلفة</li>
+                        <li>معاينة قبل الطباعة</li>
+                    </div>
+
+                    <a href="#" class="category-cta">
+                        قريباً
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>محتار أي خدمة تختار؟</h2>
+            <p>تواصل معنا وراح نساعدك تختار الأنسب لاحتياجاتك</p>
+            <a href="contact.html" class="btn btn-light">تواصل معنا</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>PrintIt</h3>
+                    <p>أول منصة سعودية متخصصة في توليد ملفات STL المخصصة</p>
+                    <div class="social">
+                        <a href="https://www.instagram.com/prin.titstore/">📷</a>
+                    </div>
+                </div>
+                <div>
+                    <h3>روابط</h3>
+                    <ul>
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="products.html">الخدمات</a></li>
+                        <li><a href="contact.html">تواصل</a></li>
+                        <li><a href="legal.html">الشروط</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>تواصل</h3>
+                    <p>📧 print.it.store1@gmail.com</p>
+                    <p>📱 0563983114</p>
+                    <p>📍 الرياض، السعودية</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PrintIt. جميع الحقوق محفوظة</p>
             </div>
         </div>
+    </footer>
 
-        <footer>
-            <p>
-                جميع الحقوق محفوظة © 2025
-                <br>
-                تصميم وبرمجة بواسطة فريق Print It Store
-            </p>
-        </footer>
-    </div>
+    <script src="script.js"></script>
 </body>
 </html>
