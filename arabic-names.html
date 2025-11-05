@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلب لوحات لوحة مخصصة</title>
+    <title>طلب ميداليات مخصصة</title>
     <style>
         :root {
             --bg-start: #2E2A29;
@@ -143,8 +143,7 @@
         input[type="text"],
         input[type="email"],
         input[type="tel"],
-        textarea,
-        select {
+        textarea {
             width: 100%;
             background: #FFFFFF;
             color: var(--text-main);
@@ -165,10 +164,14 @@
         }
 
         input:focus,
-        textarea:focus,
-        select:focus {
+        textarea:focus {
             border-color: var(--accent-start);
             box-shadow: 0 0 0 3px rgba(86,118,107,0.18);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         .help-text {
@@ -270,85 +273,6 @@
             border-radius: 8px;
         }
 
-        /* Plate Cards */
-        .plates-container {
-            margin-bottom: 20px;
-        }
-
-        .plate-card {
-            background: #FFFFFF;
-            border: 1px solid rgba(0,0,0,0.12);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .plate-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .plate-number {
-            font-weight: 600;
-            color: var(--accent-start);
-            font-size: 0.95rem;
-        }
-
-        .remove-plate-btn {
-            background: var(--badge-bg-error);
-            border: 1px solid var(--badge-border-error);
-            color: var(--badge-text-error);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .remove-plate-btn:hover {
-            background: rgba(178, 58, 72, 0.15);
-        }
-
-        .plate-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .letters-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .letters-row input {
-            text-align: center;
-            font-size: 1.2rem;
-            padding: 12px 8px;
-        }
-
-        .add-plate-btn {
-            width: 100%;
-            background: rgba(86,118,107,0.08);
-            border: 2px dashed rgba(86,118,107,0.3);
-            color: var(--accent-start);
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 14px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .add-plate-btn:hover {
-            background: rgba(86,118,107,0.12);
-            border-color: rgba(86,118,107,0.5);
-        }
-
         .submit-btn {
             width: 100%;
             background: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
@@ -423,7 +347,6 @@
             .form-header h1 { font-size: 1.2rem; }
             .form-header p { font-size: 0.8rem; }
             .form-body { padding: 20px; }
-            .plate-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -432,8 +355,8 @@
         <div class="form-header">
             <div class="brand-row">
                 <img src="FINAL.svg" alt="الشعار" class="logo">
-                <h1 id="formTitle">طلب لوحات لوحة مخصصة 🏷️</h1>
-                <p>اختر النوع – أدخل الأرقام والحروف – نجهز ملفاتك خلال أقل من 24 ساعة</p>
+                <h1 id="formTitle">طلب ميداليات مخصصة 🎨</h1>
+                <p>اكتب الأسماء – نجهز ملفاتك خلال أقل من 24 ساعة</p>
             </div>
         </div>
 
@@ -443,7 +366,6 @@
             <div id="errorMessage" class="message error-message" role="alert" aria-live="assertive"></div>
 
             <form id="orderForm" novalidate>
-                <!-- Customer Info -->
                 <div class="form-group">
                     <label for="customerName">
                         <span>الاسم الكامل</span>
@@ -504,7 +426,7 @@
                                 ملف للطباعة - تحتاج تحديد الألوان في السلايسر
                             </div>
                         </div>
-                        <div class="format-price">25 ريال</div>
+                        <div class="format-price">20 ريال</div>
                     </label>
 
                     <label class="format-option" for="format-obj">
@@ -515,10 +437,10 @@
                                 ملف جاهز مع الألوان
                             </div>
                             <div class="format-description">
-                                يظهر بالألوان في السلايسر - جاهز للطباعة الملونة
+                                يظهر بالألوان في السلايسر - للطباعة الملونة
                             </div>
                         </div>
-                        <div class="format-price">40 ريال</div>
+                        <div class="format-price">35 ريال</div>
                     </label>
 
                     <label class="format-option selected" for="format-both">
@@ -532,32 +454,31 @@
                                 احصل على النوعين - مرونة كاملة في الاستخدام
                             </div>
                         </div>
-                        <div class="format-price">60 ريال</div>
+                        <div class="format-price">50 ريال</div>
                     </label>
 
                     <div class="price-note">
-                        💡 <strong>ملف OBJ</strong> يظهر الألوان في برنامج السلايسر - تشوف اللوحة بألوانها الرسمية قبل الطباعة!
+                        💡 <strong>ملف OBJ</strong> يظهر الألوان في برنامج السلايسر - تشوف التصميم بألوانه قبل الطباعة!
                     </div>
                 </div>
 
-                <!-- Plates Section -->
                 <div class="form-group">
-                    <label>
-                        <span>اللوحات المطلوبة</span>
+                    <label for="arabicNames">
+                        <span>الأسماء المطلوبة بالعربي</span>
                         <span class="required">*</span>
                     </label>
-                    <div class="help-text" style="margin-bottom: 12px;">
-                        أضف كل لوحة مع تحديد النوع والرقم والحروف
+                    <textarea
+                        id="arabicNames"
+                        name="arabicNames"
+                        required
+                        placeholder="محمد، عبدالله، علي، ..."
+                    ></textarea>
+                    <div class="help-text">
+                        افصل الأسماء بـ (،) أو (,)
+                        <br>مثال: محمد، دانا، شهد، فيصل
+                        <br>أي سطر فاضي بيتجاهله النظام تلقائياً.
                     </div>
                 </div>
-
-                <div class="plates-container" id="platesContainer">
-                    <!-- Plate cards will be added here by JS -->
-                </div>
-
-                <button type="button" class="add-plate-btn" id="addPlateBtn">
-                    ➕ إضافة لوحة جديدة
-                </button>
 
                 <button type="submit" class="submit-btn" id="submitBtn" aria-busy="false">
                     <span class="label">متابعة للدفع 💳</span>
@@ -565,7 +486,7 @@
                 </button>
 
                 <div class="footer-hint">
-                    بالدفع أنت توافق أنه يتم تجهيز لوحاتك بشكل خاص لك،
+                    بالدفع أنت توافق أنه يتم تجهيز أسماءك بشكل خاص لك،
                     وهذا <strong>طلب مخصص</strong> ما ينفع نسترجعه بعد التصميم.
                 </div>
             </form>
@@ -578,13 +499,9 @@
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
-        const platesContainer = document.getElementById('platesContainer');
-        const addPlateBtn = document.getElementById('addPlateBtn');
 
-        // TODO: Update with your actual n8n webhook URL for Loha
-        const WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/loha-order';
-
-        let plateCounter = 0;
+        // TODO: put your actual n8n webhook URL here
+        const WEBHOOK_URL = 'https://printit.app.n8n.cloud/webhook/order-form';
 
         // Format selection handling
         const formatOptions = document.querySelectorAll('.format-option');
@@ -599,98 +516,12 @@
             });
         });
 
-        function createPlateCard() {
-            plateCounter++;
-            const plateId = `plate-${plateCounter}`;
-            
-            const card = document.createElement('div');
-            card.className = 'plate-card';
-            card.dataset.plateId = plateId;
-            
-            card.innerHTML = `
-                <div class="plate-header">
-                    <span class="plate-number">لوحة ${plateCounter}</span>
-                    ${plateCounter > 1 ? '<button type="button" class="remove-plate-btn">حذف</button>' : ''}
-                </div>
-                
-                <div class="plate-grid">
-                    <div>
-                        <label style="font-size: 0.85rem; margin-bottom: 6px;">نوع اللوحة</label>
-                        <select class="plate-type" required>
-                            <option value="">اختر النوع</option>
-                            <option value="type1">طويلة (Type 1)</option>
-                            <option value="type2">مربعة (Type 2)</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label style="font-size: 0.85rem; margin-bottom: 6px;">الرقم (4 أرقام)</label>
-                        <input 
-                            type="text" 
-                            class="plate-number-input" 
-                            placeholder="1234" 
-                            maxlength="4"
-                            pattern="[0-9]{4}"
-                            required
-                        />
-                    </div>
-                </div>
-                
-                <div>
-                    <label style="font-size: 0.85rem; margin-bottom: 6px;">الحروف العربية (3 حروف)</label>
-                    <div class="letters-row">
-                        <input type="text" class="letter-input" placeholder="ا" maxlength="1" required />
-                        <input type="text" class="letter-input" placeholder="ب" maxlength="1" required />
-                        <input type="text" class="letter-input" placeholder="ج" maxlength="1" required />
-                    </div>
-                </div>
-            `;
-            
-            // Add remove functionality
-            const removeBtn = card.querySelector('.remove-plate-btn');
-            if (removeBtn) {
-                removeBtn.addEventListener('click', () => {
-                    card.remove();
-                    renumberPlates();
-                });
-            }
-            
-            platesContainer.appendChild(card);
-        }
-
-        function renumberPlates() {
-            const cards = platesContainer.querySelectorAll('.plate-card');
-            cards.forEach((card, index) => {
-                const numberSpan = card.querySelector('.plate-number');
-                if (numberSpan) {
-                    numberSpan.textContent = `لوحة ${index + 1}`;
-                }
-            });
-        }
-
-        function getPlatesData() {
-            const cards = platesContainer.querySelectorAll('.plate-card');
-            const plates = [];
-            
-            cards.forEach(card => {
-                const type = card.querySelector('.plate-type').value;
-                const number = card.querySelector('.plate-number-input').value.trim();
-                const letters = Array.from(card.querySelectorAll('.letter-input'))
-                    .map(input => input.value.trim());
-                
-                if (type && number && letters.every(l => l)) {
-                    plates.push({ type, number, letters });
-                }
-            });
-            
-            return plates;
-        }
-
-        function formatPlatesForBackend(plates) {
-            // Format: (type1, 1222, ت, ت, ن),(type2, 1473, ت, ق, ض)
-            return plates.map(p => 
-                `(${p.type}, ${p.number}, ${p.letters.join(', ')})`
-            ).join(',');
+        function parseNames(raw) {
+            if (!raw) return [];
+            return raw
+                .split(/[\u060C,\n,]+/) // Arabic comma, English comma, or newline
+                .map(s => s.trim())
+                .filter(Boolean);
         }
 
         function setBusy(busy) {
@@ -715,15 +546,6 @@
             successMessage.style.display = 'none';
         }
 
-        // Add first plate on load
-        createPlateCard();
-
-        // Add plate button
-        addPlateBtn.addEventListener('click', () => {
-            createPlateCard();
-        });
-
-        // Form submission
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
             setBusy(true);
@@ -733,37 +555,33 @@
             const customerName = document.getElementById('customerName').value.trim();
             const email = document.getElementById('email').value.trim();
             const phone = document.getElementById('phone').value.trim();
+            const rawNames = document.getElementById('arabicNames').value;
             const exportFormat = document.querySelector('input[name="export_format"]:checked').value;
 
-            // Validation
+            // basic required validation
             if (!customerName || !email) {
                 showError('الرجاء ملء الاسم والبريد.');
                 setBusy(false);
                 return;
             }
 
-            const plates = getPlatesData();
-            if (!plates.length) {
-                showError('الرجاء إضافة لوحة واحدة على الأقل مع جميع البيانات.');
+            const names = parseNames(rawNames);
+            if (!names.length) {
+                showError('الرجاء إدخال اسم واحد على الأقل.');
                 setBusy(false);
                 return;
             }
 
-            // Format plates for backend
-            const platesFormatted = formatPlatesForBackend(plates);
-
             // Calculate price
-            const prices = { stl: 25, obj: 40, both: 60 };
+            const prices = { stl: 20, obj: 35, both: 50 };
             const totalPrice = prices[exportFormat];
 
-            // Payload for n8n
+            // payload we send to n8n
             const payload = {
                 customerName,
                 email,
                 phone,
-                plates: platesFormatted,
-                platesArray: plates,
-                numberOfPlates: plates.length,
+                names,
                 export_format: exportFormat,
                 price: totalPrice,
                 timestamp: new Date().toISOString()
@@ -780,7 +598,7 @@
                 try {
                     result = await resp.json();
                 } catch (err) {
-                    // Backend didn't send valid JSON
+                    // if backend didn't send valid json
                 }
 
                 if (!resp.ok) {
@@ -790,24 +608,24 @@
                     throw new Error(msg);
                 }
 
-                // Redirect to confirmation page with payment URL
+                // if n8n returned paymentUrl, redirect to confirmation page
                 if (result && result.paymentUrl) {
                     showSuccess('✅ تم إرسال طلبك! جاري تحويلك لصفحة التأكيد...');
                     
-                    const platesText = plates.map(p => `${p.type}: ${p.number} - ${p.letters.join('')}`).join('، ');
+                    // Get data for confirmation page
+                    const namesText = names.join('، ');
+                    const numberOfNames = names.length;
                     
-                    const confirmUrl = `confirmation.html?orderId=${result.orderId}&paymentUrl=${encodeURIComponent(result.paymentUrl)}&amount=${result.amount}&currency=${result.currency}&product=loha&numberOfPlates=${plates.length}&plates=${encodeURIComponent(platesText)}&format=${exportFormat}`;
+                    // Redirect to confirmation page with order data
+                    const confirmUrl = `confirmation.html?orderId=${result.orderId}&paymentUrl=${encodeURIComponent(result.paymentUrl)}&amount=${result.amount}&currency=${result.currency}&names=${encodeURIComponent(namesText)}&numberOfNames=${numberOfNames}&format=${exportFormat}`;
                     
                     window.location.href = confirmUrl;
                     return;
                 }
                 
-                // Fallback
+                // fallback if for some reason we didn't get paymentUrl
                 showSuccess('✅ تم إرسال الطلب بنجاح.');
                 form.reset();
-                platesContainer.innerHTML = '';
-                plateCounter = 0;
-                createPlateCard();
 
             } catch (err) {
                 console.error(err);
